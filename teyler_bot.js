@@ -3,7 +3,7 @@
 */
 
 //production mode or not
-const TESTING = false;
+const TESTING = true;
 
 
 // import the discord.js module
@@ -15,34 +15,39 @@ const bot = new Discord.Client();
 // the token of your bot - https://discordapp.com/developers/applications/me
 const token = 'MjMxNTkwOTUzMTk3MTA5MjQ4.CtClig.77OZXNMyFx8HuI_AB0HxoJjizIM';
 
+//the sizelimit on tts loops
 const sizelimit = 100;
+
+var backup = {};
 
 function startup(channel){
 	channel.sendMessage("**Teyler-bot** has started! type `!help` for commands.");
 }
 
-function help(channel) {
+function helpCommand(channel) {
 	channel.sendMessage(`\`\`\`!help			  			  - display this message
 !teyler {count} {slow|fast}	  - summons teyler optional count times, with slow or fast speed
-!timed {minutes}				 - summons teyler randomly in the next defined timeframe\`\`\``);
+!timed {minutes}				 - summons teyler randomly in the next defined timeframe
+!backup						  - will have teyler-bot back up your arguments.
+!backoff						 - will have teyler-bot back down from helping. \`\`\``);
 }
 
-function repeatMessage(channel, count, sender, message){
+function repeatMessage(message, count, text){
 	if (isNaN(count) || count < 0){
-  		channel.sendMessage("Can only use positive numbers for the number of summons");
+  		message.channel.sendMessage(message.author + ": can only use positive numbers for the number of summons");
   		return;
   	}
 
   	if (count > sizelimit){
-  		channel.sendMessage("Woah, calm down satan.");
+  		message.channel.sendMessage(message.author + ": woah, calm down satan.");
   		return;
   	}
 
 	var mes = "";
 	for (i = 0; i < count; i++){
-		mes += message;
+		mes += text;
 	}
-	channel.sendTTSMessage(mes);
+	message.channel.sendTTSMessage(mes);
 }
 
 function getMessageIntArgument(message, index){
@@ -81,6 +86,18 @@ function shouldRespond(guild){
 	return true;
 }
 
+function checkBackup(id){
+	return backup.hasOwnProperty(id);
+}
+
+function addBackup(id){
+	backup[id] = true;
+}
+
+function removeBackup(id){
+	delete backup[id];
+}
+
 // the ready event is vital, it means that your bot will only start reacting to information
 // from Discord _after_ ready is emitted.
 bot.on('ready', () => {
@@ -103,37 +120,56 @@ bot.on('message', message => {
 	if (!shouldRespond(message.guild)){
 		return;
 	}
-	
-
-	//check to see if message want to respond to
-	let prefix = "!";
-	if(!message.content.startsWith(prefix)) {
-		return;
-	}
-  	// don't respond to bots
+	// don't respond to bots
   	if(message.author.bot) {
   		return;  
   	}
 
+	//check to see if message want to respond to
+	let prefix = "!";
+	if(!message.content.startsWith(prefix)) {
+		
+		if (checkBackup(message.author.id)){
+			sameFunction(message);
+		}
+
+		return;
+		
+	}
   	if (message == "!help"){
-  		help(message.channel);
+  		helpCommand(message.channel);
   	}
-  	if (message.content.startsWith("!teyler")){
-  		var num = getMessageIntArgument(message, 1);
-  		var speed = getMessageStringArgument(message, 2);
-  		if (speed == "slow" || speed == ""){
-			repeatMessage(message.channel, num, message.member, "teyler? ");
-  		}
-  		else if (speed == "fast"){
-  			repeatMessage(message.channel, num, message.member, "teyler ");
-  		}
-  		else {
-  			channel.sendMessage("Can only use \"slow\" or \"fast\" as speed options.");
-  		}
+  	else if (message.content.startsWith("!teyler")){
+  		teylerCommand(message);
   		
   	}
-  	if (message.content.startsWith("!timed")){
-  		var mesarray = message.content.split(" ");
+  	else if (message.content.startsWith("!timed")){
+  		timedCommand(message);
+  	}
+  	else if (message.content.startsWith("!backup")){
+  		backupCommand(message);
+  	}
+  	else if (message.content.startsWith("!backoff")){
+  		backoffCommand(message);
+  	}
+});
+
+function teylerCommand(message){
+	var num = getMessageIntArgument(message, 1);
+	var speed = getMessageStringArgument(message, 2);
+	if (speed == "slow" || speed == ""){
+		repeatMessage(message, num,  "teyler? ");
+	}
+	else if (speed == "fast"){
+		repeatMessage(message, num, "teyler ");
+	}
+	else {
+		message.channel.sendMessage(message.author + ": can only use \"slow\" or \"fast\" as speed options.");
+	}
+}
+
+function timedCommand(message){
+	var mesarray = message.content.split(" ");
   		var num = getMessageIntArgument(message, 1);
 
   		if (num > sizelimit || num < 0){
@@ -144,9 +180,72 @@ bot.on('message', message => {
   		var mult = Math.random();
 
   		num = num * mult;
-  		setTimeout(function(){repeatMessage(message.channel, 1, message.member, "teyler?")}, num);
-  	}
-});
+  		setTimeout(function(){repeatMessage(message, 1, "teyler?")}, num);
+}
+
+function backupCommand(message){
+	if (!checkBackup(message.author.id)){
+		addBackup(message.author.id);
+		message.channel.sendMessage("Backing up " + message.author);
+	}
+	else{
+		message.channel.sendMessage("Already backing you up " + message.author + "!");
+	}
+}
+
+function backoffCommand(message){
+	if (checkBackup(message.author.id)){
+		removeBackup(message.author.id);
+		message.channel.sendMessage("Backing off " + message.author);
+	}
+	else{
+		message.channel.sendMessage("I, uhhh, wasn't backing you up before " + message.author + "...");
+	}
+}
+
+function sameFunction(message){
+	if (message.content.indexOf('same') > -1){
+		var also = occurrences(message.content, "also", false);
+		if (also > sizelimit){
+			also = sizelimit;
+		}
+		var mes = "";
+		for (i = 0; i < also + 1; i++){
+			mes += "also ";
+		}
+		mes += "same";
+		message.channel.sendMessage(mes);
+	}
+	else{
+		message.channel.sendMessage("same");
+	}
+}
+
+/** Function that count occurrences of a substring in a string;
+ * @param {String} string               The string
+ * @param {String} subString            The sub string to search for
+ * @param {Boolean} [allowOverlapping]  Optional. (Default:false)
+ * @author Vitim.us http://stackoverflow.com/questions/4009756/how-to-count-string-occurrence-in-string/7924240#7924240
+ */
+function occurrences(string, subString, allowOverlapping) {
+
+    string += "";
+    subString += "";
+    if (subString.length <= 0) return (string.length + 1);
+
+    var n = 0,
+        pos = 0,
+        step = allowOverlapping ? 1 : subString.length;
+
+    while (true) {
+        pos = string.indexOf(subString, pos);
+        if (pos >= 0) {
+            ++n;
+            pos += step;
+        } else break;
+    }
+    return n;
+}
 
 // log our bot in
 bot.login(token);
