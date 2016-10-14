@@ -8,15 +8,19 @@ const TESTING = true;
 
 // import the discord.js module
 const Discord = require('discord.js');
+var keys = require('./keys.js');
+
+var http = require('https');
 
 // create an instance of a Discord Client, and call it bot
 const bot = new Discord.Client();
 
-// the token of your bot - https://discordapp.com/developers/applications/me
-const token = 'MjMxNTkwOTUzMTk3MTA5MjQ4.CtClig.77OZXNMyFx8HuI_AB0HxoJjizIM';
-
 //the sizelimit on tts loops
 const sizelimit = 100;
+
+var Flickr = require("node-flickr");
+var flickrkey = {"api_key": keys.FLICKRKEY}
+flickr = new Flickr(flickrkey);
 
 var backup = {};
 
@@ -152,6 +156,9 @@ bot.on('message', message => {
   	else if (message.content.startsWith("!backoff")){
   		backoffCommand(message);
   	}
+  	//else if (message.content.startsWith("!image")){
+  		//imageCommand(message);
+  	//}
 });
 
 function teylerCommand(message){
@@ -221,6 +228,40 @@ function sameFunction(message){
 	}
 }
 
+function imageCommand(message){
+	var tag = getMessageStringArgument(message, 1);
+	var i = 2;
+	while(true){
+		var partial = getMessageStringArgument(message, i);
+		if (partial != ""){
+			tag += "," + partial
+		}
+		else{
+			break;
+		}
+		i++;
+	}
+	console.log(tag);
+	if (tag == ""){
+		message.channel.sendMessage(message.author + ": You got to put a search term dummy");
+		return;
+	}
+	flickr.get("photos.search", {"tags": tag, "per_page": 1, "tag_mode": "all", "sort": "relevance", "extras" : "url_o" }, function(err, result){
+    	if (err) {
+    		return console.error(err);
+    	}
+    	if (result.photos.total == 0){
+    		message.channel.sendMessage("I couldn't find anything...");
+    		return;
+    	}
+    	var text = result.photos.photo[0].url_o;
+    	message.channel.sendMessage(text);
+    	
+	});
+
+	
+}
+
 /** Function that count occurrences of a substring in a string;
  * @param {String} string               The string
  * @param {String} subString            The sub string to search for
@@ -248,4 +289,4 @@ function occurrences(string, subString, allowOverlapping) {
 }
 
 // log our bot in
-bot.login(token);
+bot.login(keys.DISCORDTOKEN);
