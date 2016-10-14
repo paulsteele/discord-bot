@@ -3,7 +3,7 @@
 */
 
 //production mode or not
-const TESTING = true;
+const TESTING = false;
 
 
 // import the discord.js module
