@@ -120,21 +120,23 @@ function backoffCommand(message) {
   }
 }
 
-function occurrences(string = '', subString = '', allowOverlapping = true) {
-  if (subString.length <= 0) return (string.length + 1);
+function occurrences(string, subString, allowOverlapping = true) {
+  if (subString.length <= 0) {
+    return (string.length + 1);
+  }
 
-  let n = 0;
-  let pos = 0;
+  let count = 0;
   const step = allowOverlapping ? 1 : subString.length;
 
-  while (true) {
-    pos = string.indexOf(subString, pos);
-    if (pos >= 0) {
-      n += 1;
-      pos += step;
-    } else break;
+  for (let i = 0; i < string.length; i += step) {
+    i = string.indexOf(subString, i);
+    if (i >= 0) {
+      count += 1;
+    } else {
+      break;
+    }
   }
-  return n;
+  return count;
 }
 
 function sameFunction(message) {
@@ -199,7 +201,7 @@ bot.on('message', (message) => {
 
     return;
   }
-  if (message === '!help') {
+  if (message.content === '!help') {
     helpCommand(message.channel);
   } else if (message.content.startsWith('!teyler')) {
     teylerCommand(message);
