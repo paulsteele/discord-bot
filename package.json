@@ -1,0 +1,44 @@
+{
+  "name": "teyler_bot",
+  "version": "0.1.0",
+  "description": "A discord bot inspired by teyler!",
+  "main": "teyler_bot.js",
+  "scripts": {
+    "start": "nodemon src/index.js --exec babel-node",
+    "build": "babel src -d dist",
+    "server": "node dist/index.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/paulsteele/discord-bot.git"
+  },
+  "author": "Paul Steele",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/paulsteele/discord-bot/issues"
+  },
+  "homepage": "https://github.com/paulsteele/discord-bot#readme",
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-preset-env": "^1.6.0",
+    "eslint": "^4.3.0",
+    "eslint-config-airbnb": "^15.1.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-react": "^7.1.0",
+    "nodemon": "^1.11.0"
+  },
+  "dependencies": {
+    "bufferutil": "^3.0.2",
+    "discord.js": "^11.1.0",
+    "erlpack": "github:hammerandchisel/erlpack",
+    "libsodium-wrappers": "^0.5.2",
+    "node-opus": "^0.2.6",
+    "opusscript": "0.0.3",
+    "sodium": "^2.0.1",
+    "uws": "^8.14.0"
+  }
+}
