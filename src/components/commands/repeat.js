@@ -8,7 +8,7 @@ const executeCommand = (payload) => {
     payload.channel.send(payload.contentText);
   }
 };
-const repeatHelp = 'teyelr';
+const repeatHelp = 'repeats teyler optional times';
 
 const repeatCommand = new Command(triggerText, executeCommand, repeatHelp);
 

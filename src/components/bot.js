@@ -31,6 +31,9 @@ class TeylerBot {
         this.commands[command.getTrigger()] = command;
       }
     });
+
+    // special setup for help command as it needs scope
+    this.commands.help.populate(this.commands);
   }
 
   handleReady() {
@@ -38,7 +41,7 @@ class TeylerBot {
     // send startup message
     this.client.guilds.array().forEach((guild) => {
       const channel = guild.defaultChannel;
-      this.commands.help.execute({ channel });
+      channel.send('**Teyler-bot V2** has started! type `!help` for commands.');
     });
   }
 

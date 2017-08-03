@@ -8,8 +8,6 @@ bot.connect();
 // // production mode or not
 // const TESTING = true;
 
-
-
 // // the sizelimit on tts loops
 // const sizelimit = 100;
 
@@ -30,7 +28,8 @@ bot.connect();
 
 // function repeatMessage(message, count, text) {
 //   if (isNaN(count) || count < 0) {
-//     message.channel.send(`${message.author}: can only use positive numbers for the number of summons`);
+//     message.channel.send(`${message.author}: can 
+// only use positive numbers for the number of summons`);
 //     return;
 //   }
 
