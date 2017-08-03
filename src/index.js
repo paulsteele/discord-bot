@@ -1,221 +1,221 @@
-// import the discord.js module
-import Discord from 'discord.js';
-import discordKey from './tokens';
-// production mode or not
-const TESTING = true;
+import TeylerBot from './components/bot';
 
-// create an instance of a Discord Client, and call it bot
-const bot = new Discord.Client();
+const bot = new TeylerBot();
 
-// the sizelimit on tts loops
-const sizelimit = 100;
+bot.connect();
 
 
-const backup = {};
+// // production mode or not
+// const TESTING = true;
 
-function startup(channel) {
-  channel.sendMessage('**Teyler-bot** has started! type `!help` for commands.');
-}
 
-function helpCommand(channel) {
-  channel.sendMessage(`\`\`\`!help- display this message
-!teyler {count} {slow|fast} - summons teyler optional count times, with slow or fast speed
-!timed {minutes}- summons teyler randomly in the next defined timeframe
-!backup- will have teyler-bot back up your arguments.
-!backoff- will have teyler-bot back down from helping. \`\`\``);
-}
 
-function repeatMessage(message, count, text) {
-  if (isNaN(count) || count < 0) {
-    message.channel.sendMessage(`${message.author}: can only use positive numbers for the number of summons`);
-    return;
-  }
+// // the sizelimit on tts loops
+// const sizelimit = 100;
 
-  if (count > sizelimit) {
-    message.channel.sendMessage(`${message.author}: woah, calm down satan.`);
-    return;
-  }
 
-  let mes = '';
-  for (let i = 0; i < count; i += 1) {
-    mes += text;
-  }
-  message.channel.sendTTSMessage(mes);
-}
+// const backup = {};
 
-function getMessageIntArgument(message, index) {
-  const mesarray = message.content.split(' ');
-  if (mesarray.length > index) {
-    return parseInt(mesarray[index], 10);
-  }
+// function startup(channel) {
+//   channel.send('**Teyler-bot** has started! type `!help` for commands.');
+// }
 
-  return 1;
-}
+// function helpCommand(channel) {
+//   channel.send(`\`\`\`!help- display this message
+// !teyler {count} {slow|fast} - summons teyler optional count times, with slow or fast speed
+// !timed {minutes}- summons teyler randomly in the next defined timeframe
+// !backup- will have teyler-bot back up your arguments.
+// !backoff- will have teyler-bot back down from helping. \`\`\``);
+// }
 
-function getMessageStringArgument(message, index) {
-  const mesarray = message.content.split(' ');
-  if (mesarray.length > index) {
-    return (mesarray[index]);
-  }
+// function repeatMessage(message, count, text) {
+//   if (isNaN(count) || count < 0) {
+//     message.channel.send(`${message.author}: can only use positive numbers for the number of summons`);
+//     return;
+//   }
 
-  return '';
-}
+//   if (count > sizelimit) {
+//     message.channel.send(`${message.author}: woah, calm down satan.`);
+//     return;
+//   }
 
-function shouldRespond(guild) {
-  if (guild == null) {
-    return false;
-  }
-  if (TESTING === false) {
-    if (guild.name === 'Bot Test') {
-      return false;
-    }
-  } else if (guild.name !== 'Bot Test') {
-    return false;
-  }
+//   let mes = '';
+//   for (let i = 0; i < count; i += 1) {
+//     mes += text;
+//   }
+//   message.channel.sendTTSMessage(mes);
+// }
 
-  return true;
-}
+// function getMessageIntArgument(message, index) {
+//   const mesarray = message.content.split(' ');
+//   if (mesarray.length > index) {
+//     return parseInt(mesarray[index], 10);
+//   }
 
-function checkBackup(id) {
-  return backup[id];
-}
+//   return 1;
+// }
 
-function addBackup(id) {
-  backup[id] = true;
-}
+// function getMessageStringArgument(message, index) {
+//   const mesarray = message.content.split(' ');
+//   if (mesarray.length > index) {
+//     return (mesarray[index]);
+//   }
 
-function removeBackup(id) {
-  delete backup[id];
-}
+//   return '';
+// }
 
-// the ready event is vital, it means that your bot will only start reacting to information
-// from Discord _after_ ready is emitted.
-bot.on('ready', () => {
-  console.log('I am ready!');
+// function shouldRespond(guild) {
+//   if (guild == null) {
+//     return false;
+//   }
+//   if (TESTING === false) {
+//     if (guild.name === 'Bot Test') {
+//       return false;
+//     }
+//   } else if (guild.name !== 'Bot Test') {
+//     return false;
+//   }
 
-  // send startup message
-  bot.guilds.array().forEach((guild) => {
-    if (shouldRespond(guild)) {
-      const channel = guild.defaultChannel;
-      startup(channel);
-    }
-  });
-});
+//   return true;
+// }
 
-function backupCommand(message) {
-  if (!checkBackup(message.author.id)) {
-    addBackup(message.author.id);
-    message.channel.sendMessage(`Backing up ${message.author}`);
-  } else {
-    message.channel.sendMessage(`Already backing you up ${message.author}!`);
-  }
-}
+// function checkBackup(id) {
+//   return backup[id];
+// }
 
-function backoffCommand(message) {
-  if (checkBackup(message.author.id)) {
-    removeBackup(message.author.id);
-    message.channel.sendMessage(`Backing off ${message.author}`);
-  } else {
-    message.channel.sendMessage(`I, uhhh, wasn't backing you up before ${message.author}...`);
-  }
-}
+// function addBackup(id) {
+//   backup[id] = true;
+// }
 
-function occurrences(string, subString, allowOverlapping = true) {
-  if (subString.length <= 0) {
-    return (string.length + 1);
-  }
+// function removeBackup(id) {
+//   delete backup[id];
+// }
 
-  let count = 0;
-  const step = allowOverlapping ? 1 : subString.length;
+// // the ready event is vital, it means that your bot will only start reacting to information
+// // from Discord _after_ ready is emitted.
+// bot.on('ready', () => {
+//   console.log('I am ready!');
 
-  for (let i = 0; i < string.length; i += step) {
-    i = string.indexOf(subString, i);
-    if (i >= 0) {
-      count += 1;
-    } else {
-      break;
-    }
-  }
-  return count;
-}
+//   // send startup message
+//   bot.guilds.array().forEach((guild) => {
+//     if (shouldRespond(guild)) {
+//       const channel = guild.defaultChannel;
+//       startup(channel);
+//     }
+//   });
+// });
 
-function sameFunction(message) {
-  if (message.content.indexOf('same') > -1) {
-    let also = occurrences(message.content, 'also', false);
-    if (also > sizelimit) {
-      also = sizelimit;
-    }
-    let mes = '';
-    for (let i = 0; i < also + 1; i += 1) {
-      mes += 'also ';
-    }
-    mes += 'same';
-    message.channel.sendMessage(mes);
-  } else {
-    message.channel.sendMessage('same');
-  }
-}
+// function backupCommand(message) {
+//   if (!checkBackup(message.author.id)) {
+//     addBackup(message.author.id);
+//     message.channel.send(`Backing up ${message.author}`);
+//   } else {
+//     message.channel.send(`Already backing you up ${message.author}!`);
+//   }
+// }
 
-function teylerCommand(message) {
-  const num = getMessageIntArgument(message, 1);
-  const speed = getMessageStringArgument(message, 2);
-  if (speed === 'slow' || speed === '') {
-    repeatMessage(message, num, 'teyler? ');
-  } else if (speed === 'fast') {
-    repeatMessage(message, num, 'teyler ');
-  } else {
-    message.channel.sendMessage(`${message.author}: can only use "slow" or "fast" as speed options.`);
-  }
-}
+// function backoffCommand(message) {
+//   if (checkBackup(message.author.id)) {
+//     removeBackup(message.author.id);
+//     message.channel.send(`Backing off ${message.author}`);
+//   } else {
+//     message.channel.send(`I, uhhh, wasn't backing you up before ${message.author}...`);
+//   }
+// }
 
-function timedCommand(message) {
-  let num = getMessageIntArgument(message, 1);
+// function occurrences(string, subString, allowOverlapping = true) {
+//   if (subString.length <= 0) {
+//     return (string.length + 1);
+//   }
 
-  if (num > sizelimit || num < 0) {
-    num = 1;
-  }
+//   let count = 0;
+//   const step = allowOverlapping ? 1 : subString.length;
 
-  num = num * 1000 * 60;
-  const mult = Math.random();
+//   for (let i = 0; i < string.length; i += step) {
+//     i = string.indexOf(subString, i);
+//     if (i >= 0) {
+//       count += 1;
+//     } else {
+//       break;
+//     }
+//   }
+//   return count;
+// }
 
-  num *= mult;
-  setTimeout(() => { repeatMessage(message, 1, 'teyler?'); }, num);
-}
+// function sameFunction(message) {
+//   if (message.content.indexOf('same') > -1) {
+//     let also = occurrences(message.content, 'also', false);
+//     if (also > sizelimit) {
+//       also = sizelimit;
+//     }
+//     let mes = '';
+//     for (let i = 0; i < also + 1; i += 1) {
+//       mes += 'also ';
+//     }
+//     mes += 'same';
+//     message.channel.send(mes);
+//   } else {
+//     message.channel.send('same');
+//   }
+// }
 
-// create an event listener for messages
-bot.on('message', (message) => {
-  if (!shouldRespond(message.guild)) {
-    return;
-  }
-  // don't respond to bots
-  if (message.author.bot) {
-    return;
-  }
+// function teylerCommand(message) {
+//   const num = getMessageIntArgument(message, 1);
+//   const speed = getMessageStringArgument(message, 2);
+//   if (speed === 'slow' || speed === '') {
+//     repeatMessage(message, num, 'teyler? ');
+//   } else if (speed === 'fast') {
+//     repeatMessage(message, num, 'teyler ');
+//   } else {
+//     message.channel.send(`${message.author}: can only use "slow" or "fast" as speed options.`);
+//   }
+// }
 
-  // check to see if message want to respond to
-  const prefix = '!';
-  if (!message.content.startsWith(prefix)) {
-    if (checkBackup(message.author.id)) {
-      sameFunction(message);
-    }
+// function timedCommand(message) {
+//   let num = getMessageIntArgument(message, 1);
 
-    return;
-  }
-  if (message.content === '!help') {
-    helpCommand(message.channel);
-  } else if (message.content.startsWith('!teyler')) {
-    teylerCommand(message);
-  } else if (message.content.startsWith('!timed')) {
-    timedCommand(message);
-  } else if (message.content.startsWith('!backup')) {
-    backupCommand(message);
-  } else if (message.content.startsWith('!backoff')) {
-    backoffCommand(message);
-  }
-  // else if (message.content.startsWith("!image")){
-  // imageCommand(message);
-  // }
-});
+//   if (num > sizelimit || num < 0) {
+//     num = 1;
+//   }
 
-// log our bot in
-bot.login(discordKey);
+//   num = num * 1000 * 60;
+//   const mult = Math.random();
+
+//   num *= mult;
+//   setTimeout(() => { repeatMessage(message, 1, 'teyler?'); }, num);
+// }
+
+// // create an event listener for messages
+// bot.on('message', (message) => {
+//   if (!shouldRespond(message.guild)) {
+//     return;
+//   }
+//   // don't respond to bots
+//   if (message.author.bot) {
+//     return;
+//   }
+
+//   // check to see if message want to respond to
+//   const prefix = '!';
+//   if (!message.content.startsWith(prefix)) {
+//     if (checkBackup(message.author.id)) {
+//       sameFunction(message);
+//     }
+
+//     return;
+//   }
+//   if (message.content === '!help') {
+//     helpCommand(message.channel);
+//   } else if (message.content.startsWith('!teyler')) {
+//     teylerCommand(message);
+//   } else if (message.content.startsWith('!timed')) {
+//     timedCommand(message);
+//   } else if (message.content.startsWith('!backup')) {
+//     backupCommand(message);
+//   } else if (message.content.startsWith('!backoff')) {
+//     backoffCommand(message);
+//   }
+//   // else if (message.content.startsWith("!image")){
+//   // imageCommand(message);
+//   // }
+// });
