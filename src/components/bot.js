@@ -1,10 +1,11 @@
+/* eslint-disable no-console */
 // import the discord.js module
 import Discord from 'discord.js';
 import discordKey from '../tokens';
 import * as commands from './commands';
 import Command from './command';
-
-import seperateCommandFromMessage from './utils/seperateCommandFromMessage';
+import ReadyHandler from './handlers/ReadyHandler';
+import MessageHandler from './handlers/MessageHandler';
 
 class TeylerBot {
   constructor() {
@@ -20,41 +21,25 @@ class TeylerBot {
   }
 
   registerHandlers() {
-    // remember to bind the functions if they need use of this
-    this.client.on('message', this.handleMessage.bind(this));
-    this.client.on('ready', this.handleReady.bind(this));
+    const readyHandler = new ReadyHandler(this.client.guilds);
+    this.client.on('ready', readyHandler.handle);
+    const messageHandler = new MessageHandler(this.commands);
+    this.client.on('message', messageHandler.handle);
   }
 
   registerCommands() {
     Object.values(commands).forEach((command) => {
-      if (command.getTrigger) {
+      if (Command.isValid(command)) {
         this.commands[command.getTrigger()] = command;
+      } else {
+        console.log(command);
+        console.log('could not be loaded as a command');
       }
     });
 
     // special setup for help command as it needs scope
-    this.commands.help.populate(this.commands);
-  }
-
-  handleReady() {
-    console.log('I am ready!'); // eslint-disable-line no-console
-    // send startup message
-    this.client.guilds.array().forEach((guild) => {
-      const channel = guild.defaultChannel;
-      channel.send('**Teyler-bot V2** has started! type `!help` for commands.');
-    });
-  }
-
-  handleMessage(message) {
-    if (message.content.startsWith(Command.getPrefix())) {
-      const splitContent = seperateCommandFromMessage(message.content);
-      if (this.commands[splitContent.command]) {
-        const payload = {
-          channel: message.channel,
-          contentText: splitContent.contentText,
-        };
-        this.commands[splitContent.command].execute(payload);
-      }
+    if (this.commands.help) {
+      this.commands.help.populate(this.commands);
     }
   }
 }

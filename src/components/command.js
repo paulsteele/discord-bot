@@ -1,6 +1,7 @@
 class Command {
-  constructor(triggerText, executeCallback, helpMessage) {
+  constructor(triggerText, args, executeCallback, helpMessage) {
     this.triggerText = triggerText;
+    this.args = args;
     this.executeCallback = executeCallback;
     this.helpMessage = helpMessage;
   }
@@ -9,16 +10,31 @@ class Command {
     return this.triggerText;
   }
 
-  execute(payload = {}) {
-    this.executeCallback(payload);
+  execute(payload = {}, argArray = []) {
+    this.executeCallback(payload, ...argArray);
   }
 
   getHelp() {
     return this.helpMessage;
   }
 
+  getArgs() {
+    return this.args;
+  }
+
   static getPrefix() {
     return '!';
+  }
+
+  static getArgIdentifier() {
+    return {
+      start: '{',
+      end: '}',
+    };
+  }
+
+  static isValid(candidate) {
+    return candidate.getTrigger && candidate.execute && candidate.getHelp && candidate.getArgs;
   }
 }
 
