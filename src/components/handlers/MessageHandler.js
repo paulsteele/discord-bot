@@ -17,6 +17,7 @@ class MessageHandler {
           command.getArgs().length);
         const payload = {
           channel: message.channel,
+          author: message.author,
           contentText: splitArg.contentText,
         };
         command.execute(payload, splitArg.argArray);

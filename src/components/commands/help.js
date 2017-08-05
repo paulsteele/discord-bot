@@ -1,4 +1,5 @@
 import Command from '../command';
+import send from '../utils/send';
 
 const triggerText = 'help';
 const helpText = 'displays this message';
@@ -12,7 +13,7 @@ class HelpCommand extends Command {
   execute(payload) {
     // payload should be an array of commands + channel to send message
     if (payload.channel) {
-      payload.channel.send(this.helpText);
+      send(payload.channel, this.helpText);
     }
   }
 
