@@ -49,6 +49,21 @@
     "uws": "^8.14.0"
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "collectCoverageFrom": [
+      "**/*.js", 
+      "!**/node_modules/**",
+      "!**/dist/**",
+      "!**/*test.js",
+      "!**/coverage/**"
+    ],
+    "testMatch": [
+      "**/__tests__/**/*.test.js"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/dist/",
+      "/coverage/"
+    ]
   }
 }
