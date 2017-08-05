@@ -4,12 +4,16 @@
   "description": "A discord bot inspired by teyler!",
   "main": "index.js",
   "scripts": {
+    "prestart": "npm run test",
     "start": "nodemon src/index.js --exec babel-node",
+    "prebuild": "npm run test",
     "build": "babel src -d dist",
     "serve": "node dist/index.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest .",
+    "test:watch": "jest --watch .",
+    "test:coverage": "jest --coverage"
   },
   "repository": {
     "type": "git",
@@ -23,13 +27,16 @@
   "homepage": "https://github.com/paulsteele/discord-bot#readme",
   "devDependencies": {
     "babel-cli": "^6.24.1",
+    "babel-jest": "^20.0.3",
     "babel-preset-env": "^1.6.0",
     "eslint": "^4.3.0",
     "eslint-config-airbnb": "^15.1.0",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-react": "^7.1.0",
-    "nodemon": "^1.11.0"
+    "jest": "^20.0.4",
+    "nodemon": "^1.11.0",
+    "regenerator-runtime": "^0.10.5"
   },
   "dependencies": {
     "bufferutil": "^3.0.2",
@@ -40,5 +47,8 @@
     "opusscript": "0.0.3",
     "sodium": "^2.0.1",
     "uws": "^8.14.0"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }

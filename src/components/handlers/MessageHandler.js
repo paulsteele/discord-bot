@@ -9,11 +9,12 @@ class MessageHandler {
   }
 
   handle(message) {
-    if (message.content.startsWith(Command.getPrefix())) {
+    if (message.content.trim().startsWith(Command.getPrefix())) {
       const splitContent = seperateCommandFromMessage(message.content);
       const command = this.commands[splitContent.command];
       if (command) {
-        const splitArg = seperateArgsFromContent(splitContent.contentText, command.getArgs().length);
+        const splitArg = seperateArgsFromContent(splitContent.contentText,
+          command.getArgs().length);
         const payload = {
           channel: message.channel,
           contentText: splitArg.contentText,
