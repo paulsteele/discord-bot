@@ -36,12 +36,14 @@
     "eslint-plugin-react": "^7.1.0",
     "jest": "^20.0.4",
     "nodemon": "^1.11.0",
-    "regenerator-runtime": "^0.10.5"
+    "regenerator-runtime": "^0.10.5",
+    "uws": "^8.14.1"
   },
   "dependencies": {
     "bufferutil": "^3.0.2",
     "discord.js": "^11.1.0",
     "erlpack": "github:hammerandchisel/erlpack",
+    "libsodium": "^0.5.2",
     "node-opus": "^0.2.6",
     "opusscript": "0.0.3"
   },
