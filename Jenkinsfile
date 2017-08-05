@@ -2,26 +2,24 @@ pipeline {
   agent any
 
   stages {
-    node() {
-      stage('Install Dependencies') {
-        steps {
-          sh 'npm install'
-        }
+    stage('Install Dependencies') {
+      steps {
+        sh 'npm install'
       }
-      stage('Test') {
-        steps {
-          sh 'npm test'
-        }
+    }
+    stage('Test') {
+      steps {
+        sh 'npm test'
       }
-      stage('Build') {
-        steps {
-          sh 'npm build'
-        }
+    }
+    stage('Build') {
+      steps {
+        sh 'npm build'
       }
-      stage('Deploy') {
-        steps {
-          echo "On Branch ${env.BRANCH_NAME}"
-        }
+    }
+    stage('Deploy') {
+      steps {
+        echo "On Branch ${env.BRANCH_NAME}"
       }
     }
   }
