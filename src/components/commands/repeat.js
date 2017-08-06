@@ -3,7 +3,7 @@ import send from '../utils/send';
 
 const triggerText = 'teyler';
 const args = [
-  'counter',
+  'count',
   'speed',
 ];
 
