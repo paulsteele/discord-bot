@@ -4,13 +4,12 @@ import send from '../utils/send';
 const triggerText = 'teyler';
 const args = [
   'count',
-  'speed',
 ];
 
 const sizeLimit = 100;
 const defaultText = 'teyler';
 
-const executeCommand = (payload, count = 1, speed = 0) => {
+const executeCommand = (payload, count = 1) => {
   // payload should be an array of commands + channel to send message
   if (payload.channel) {
     if (isNaN(count) || count < 1) {

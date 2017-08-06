@@ -1,7 +1,6 @@
 import seperateArgsFromContent from '../seperateArgsFromContent';
 
 describe('seperateArgsFromContent', () => {
-
   const wordBank = [
     'there',
     'is',
@@ -23,7 +22,7 @@ describe('seperateArgsFromContent', () => {
     return ret;
   };
 
-  it('should return the correct arguments, and content when there are excess words', () =>{
+  it('should return the correct arguments, and content when there are excess words', () => {
     const phrase = combineWords(4, 1);
     const res = seperateArgsFromContent(phrase, 2);
     expect(res.argArray).toEqual([wordBank[0], wordBank[1]]);
@@ -76,7 +75,7 @@ describe('seperateArgsFromContent', () => {
   });
 
   it('should return correct values when words are only one character long', () => {
-    const phrase = 'a b c'; 
+    const phrase = 'a b c';
     const res = seperateArgsFromContent(phrase, 2);
     expect(res.argArray).toEqual(['a', 'b']);
     expect(res.contentText).toEqual('c');
