@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 // import the discord.js module
 import Discord from 'discord.js';
-import discordKey from '../tokens';
+import discordKey from '../tokens'; // eslint-disable-line import/extensions, import/no-unresolved
 import * as commands from './commands';
 import Command from './command';
 import ReadyHandler from './handlers/ReadyHandler';
