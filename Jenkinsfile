@@ -26,8 +26,13 @@ pipeline {
       }
     }
     stage('Deploy') {
+      when {
+        branch 'master'
+      }
       steps {
-        echo "On Branch ${env.BRANCH_NAME}"
+        sh "sudo /srv/deployment/stopTeylerBot.sh"
+        sh "cp -R ./* /srv/deployment/teyler-bot"
+        sh "sudo /srv/deployment/startTeylerBot.sh"
       }
     }
   }
