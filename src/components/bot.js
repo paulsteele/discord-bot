@@ -4,7 +4,7 @@ import Discord from 'discord.js';
 import discordKey from '../tokens'; // eslint-disable-line import/extensions, import/no-unresolved
 import * as commands from './commands';
 import Command from './command';
-import ReadyHandler from './handlers/ReadyHandler';
+// import ReadyHandler from './handlers/ReadyHandler';
 import MessageHandler from './handlers/MessageHandler';
 
 class TeylerBot {
@@ -21,8 +21,8 @@ class TeylerBot {
   }
 
   registerHandlers() {
-    const readyHandler = new ReadyHandler(this.client.guilds);
-    this.client.on('ready', readyHandler.handle);
+    // const readyHandler = new ReadyHandler(this.client.guilds);
+    // this.client.on('ready', readyHandler.handle);
     const messageHandler = new MessageHandler(this.commands);
     this.client.on('message', messageHandler.handle);
   }
