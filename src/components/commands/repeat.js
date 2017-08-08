@@ -4,12 +4,13 @@ import send from '../utils/send';
 const triggerText = 'teyler';
 const args = [
   'count',
+  'speed',
 ];
 
 const sizeLimit = 100;
 const defaultText = 'teyler';
 
-const executeCommand = (payload, count = 1) => {
+const executeCommand = (payload, count = 1, speed = 'slow') => {
   // payload should be an array of commands + channel to send message
   if (payload.channel) {
     if (isNaN(count) || count < 1) {
@@ -29,13 +30,15 @@ const executeCommand = (payload, count = 1) => {
     let message = '';
     for (let i = 0; i < count; i += 1) {
       message += text;
-      message += ' ';
+      if (speed !== 'fast') {
+        message += ' ';
+      }
     }
 
     send(payload.channel, message, { tts: true });
   }
 };
-const repeatHelp = 'repeats teyler {count} times with {speed}';
+const repeatHelp = 'repeats teyler {count} times with fast/slow {speed}';
 
 const repeatCommand = new Command(triggerText, args, executeCommand, repeatHelp);
 

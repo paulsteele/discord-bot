@@ -6,9 +6,14 @@ class MessageHandler {
   constructor(commands) {
     this.commands = commands;
     this.handle = this.handle.bind(this);
+    this.listeners = [];
   }
 
   handle(message) {
+    if (message.author.bot) {
+      return;
+    }
+
     if (message.content.trim().startsWith(Command.getPrefix())) {
       const splitContent = seperateCommandFromMessage(message.content);
       const command = this.commands[splitContent.command];
@@ -22,7 +27,17 @@ class MessageHandler {
         };
         command.execute(payload, splitArg.argArray);
       }
+    } else { // handle other listeners
+      this.listeners.forEach((listener) => {
+        if (listener.handle) {
+          listener.handle(message);
+        }
+      });
     }
+  }
+
+  registerListener(listener) {
+    this.listeners[this.listeners.length] = listener;
   }
 }
 

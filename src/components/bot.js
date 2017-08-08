@@ -11,8 +11,12 @@ class TeylerBot {
   constructor() {
     this.client = new Discord.Client();
     this.commands = [];
+    this.messageHandler = null;
+    this.store = {};
+
     this.registerCommands();
     this.registerHandlers();
+    this.setUpCommands();
     this.connect();
   }
 
@@ -23,8 +27,8 @@ class TeylerBot {
   registerHandlers() {
     // const readyHandler = new ReadyHandler(this.client.guilds);
     // this.client.on('ready', readyHandler.handle);
-    const messageHandler = new MessageHandler(this.commands);
-    this.client.on('message', messageHandler.handle);
+    this.messageHandler = new MessageHandler(this.commands);
+    this.client.on('message', this.messageHandler.handle);
   }
 
   registerCommands() {
@@ -36,10 +40,20 @@ class TeylerBot {
         console.log('could not be loaded as a command');
       }
     });
+  }
 
+  setUpCommands() {
     // special setup for help command as it needs scope
     if (this.commands.help) {
       this.commands.help.populate(this.commands);
+    }
+
+    if (this.commands.backup) {
+      this.commands.backup.populate(this.messageHandler, this.store);
+    }
+
+    if (this.commands.backoff) {
+      this.commands.backoff.populate(this.store);
     }
   }
 }
