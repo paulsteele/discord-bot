@@ -75,7 +75,8 @@ class Command {
     candidate.getLongHelp &&
     candidate.getArgs &&
     candidate.setup &&
-    candidate.finalizeSetup;
+    candidate.finalizeSetup &&
+    candidate.getVersion;
   }
 }
 

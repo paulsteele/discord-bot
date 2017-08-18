@@ -1,5 +1,7 @@
 import Command from '../command';
 import send from '../utils/send';
+import getHelpMessage from '../utils/getHelpMessage';
+import getMaxCommandLength from '../utils/getMaxCommandLength';
 
 const triggerText = 'help';
 const shortHelpText = 'displays information about {command}';
@@ -33,6 +35,8 @@ class HelpCommand extends Command {
         messageContent += actualCommand.getLongHelp();
         messageContent += '```';
         send(payload.channel, messageContent);
+      } else {
+        send(payload.channel, `Command \`${command}\` was not found`);
       }
     } else {
       send(payload.channel, this.helpText);
@@ -42,63 +46,14 @@ class HelpCommand extends Command {
   finalizeSetup() {
     const commandArray = Object.values(this.commands);
     commandArray.sort(Command.compare);
-    const maxCommandLength = HelpCommand.getMaxCommandLength(commandArray);
+    const maxCommandLength = getMaxCommandLength(commandArray);
 
     let messageContent = '```';
     commandArray.forEach((command, index) => {
-      messageContent += Command.getPrefix() + HelpCommand
-        .getTriggerAndArgs(command).padEnd(maxCommandLength);
-      messageContent += '- ';
-      messageContent += command.getShortHelp();
-      if (index !== commandArray.length - 1) {
-        messageContent += '\n';
-      }
+      messageContent += getHelpMessage(command, index, commandArray.length, maxCommandLength);
     });
     messageContent += '```';
     this.helpText = messageContent;
-  }
-
-  static getMaxCommandLength(commandArray) {
-    let length = 0;
-    commandArray.forEach((command) => {
-      let prefixLength = command.getTrigger().length;
-      let hadArgs = false;
-      command.getArgs().forEach((arg) => {
-        hadArgs = true;
-        // extra space for each
-        prefixLength += 1;
-        // spaces for argument tags
-        prefixLength += Command.getArgIdentifier().start.length;
-        prefixLength += Command.getArgIdentifier().end.length;
-        // space for the argument
-        prefixLength += arg.length;
-      });
-      if (hadArgs) {
-        prefixLength += 1;
-      }
-
-      if (length < prefixLength) {
-        length = prefixLength;
-      }
-    });
-
-    return length;
-  }
-
-  static getTriggerAndArgs(command) {
-    const trigger = command.getTrigger();
-    let val = '';
-    val += trigger;
-    val += ' ';
-    const commandArgs = command.getArgs();
-    for (let i = 0; i < commandArgs.length; i += 1) {
-      val += Command.getArgIdentifier().start;
-      val += commandArgs[i];
-      val += Command.getArgIdentifier().end;
-      val += ' ';
-    }
-
-    return val;
   }
 }
 

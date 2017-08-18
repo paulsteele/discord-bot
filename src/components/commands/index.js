@@ -4,3 +4,4 @@ export { default as timedCommand } from './timed';
 export { default as backupCommand } from './backup';
 export { default as backoffCommand } from './backoff';
 export { default as coinflipCommand } from './coinflip';
+export { default as newCommand } from './new';
