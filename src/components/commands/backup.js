@@ -6,9 +6,7 @@ const helpText = 'backs up the author';
 
 class BackupCommand extends Command {
   constructor() {
-    super(triggerText, [], null, helpText);
-    this.helpText = null;
-    this.store = null;
+    super(triggerText, helpText);
   }
 
   execute(payload) {
@@ -22,9 +20,10 @@ class BackupCommand extends Command {
     }
   }
 
-  populate(messageHandler, store) {
-    messageHandler.registerListener(this);
-    this.store = store;
+  finalizeSetup() {
+    if (this.handlers.messageHandler) {
+      this.handlers.messageHandler.registerListener(this);
+    }
     this.store.backups = {};
   }
 

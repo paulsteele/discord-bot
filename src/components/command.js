@@ -1,25 +1,38 @@
 class Command {
-  constructor(triggerText, args, executeCallback, helpMessage) {
+  constructor(triggerText, helpText, args = []) {
     this.triggerText = triggerText;
     this.args = args;
-    this.executeCallback = executeCallback;
-    this.helpMessage = helpMessage;
+    this.helpText = helpText;
+    this.store = null;
+    this.handlers = null;
+    this.commands = null;
   }
 
   getTrigger() {
     return this.triggerText;
   }
 
-  execute(payload = {}, argArray = []) {
-    this.executeCallback(payload, ...argArray);
+  execute() { // eslint-disable-line class-methods-use-this
+    // meant to be overwritten if needed
   }
 
   getHelp() {
-    return this.helpMessage;
+    return this.helpText;
   }
 
   getArgs() {
     return this.args;
+  }
+
+  setup(commands, handlers, store) {
+    this.commands = commands;
+    this.handlers = handlers;
+    this.store = store;
+    this.finalizeSetup();
+  }
+
+  finalizeSetup() { // eslint-disable-line class-methods-use-this
+    // meant to be overwritten if needed
   }
 
   static getPrefix() {
@@ -34,7 +47,12 @@ class Command {
   }
 
   static isValid(candidate) {
-    return candidate.getTrigger && candidate.execute && candidate.getHelp && candidate.getArgs;
+    return candidate.getTrigger &&
+    candidate.execute &&
+    candidate.getHelp &&
+    candidate.getArgs &&
+    candidate.setup &&
+    candidate.finalizeSetup;
   }
 }
 

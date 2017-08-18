@@ -25,7 +25,7 @@ class MessageHandler {
           author: message.author,
           contentText: splitArg.contentText,
         };
-        command.execute(payload, splitArg.argArray);
+        command.execute(payload, ...splitArg.argArray);
       }
     } else { // handle other listeners
       this.listeners.forEach((listener) => {

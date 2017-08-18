@@ -6,7 +6,7 @@ const helpText = 'displays this message';
 
 class HelpCommand extends Command {
   constructor() {
-    super(triggerText, [], null, helpText);
+    super(triggerText, helpText);
     this.helpText = null;
   }
 
@@ -17,8 +17,8 @@ class HelpCommand extends Command {
     }
   }
 
-  populate(commands) {
-    const commandArray = Object.values(commands);
+  finalizeSetup() {
+    const commandArray = Object.values(this.commands);
 
     const maxCommandLength = HelpCommand.getMaxCommandLength(commandArray);
 

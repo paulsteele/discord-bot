@@ -6,9 +6,7 @@ const helpText = 'backs off the author';
 
 class BackoffCommand extends Command {
   constructor() {
-    super(triggerText, [], null, helpText);
-    this.helpText = null;
-    this.store = null;
+    super(triggerText, helpText);
   }
 
   execute(payload) {
@@ -20,10 +18,6 @@ class BackoffCommand extends Command {
         send(payload.channel, `${payload.author}, I wasn't backing you up...`);
       }
     }
-  }
-
-  populate(store) {
-    this.store = store;
   }
 }
 
