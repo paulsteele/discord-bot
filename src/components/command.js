@@ -1,8 +1,9 @@
 class Command {
-  constructor(triggerText, helpText, args = []) {
+  constructor(triggerText, shortHelpText, longHelpText, args = []) {
     this.triggerText = triggerText;
     this.args = args;
-    this.helpText = helpText;
+    this.shortHelpText = shortHelpText;
+    this.longHelpText = longHelpText;
     this.store = null;
     this.handlers = null;
     this.commands = null;
@@ -16,8 +17,12 @@ class Command {
     // meant to be overwritten if needed
   }
 
-  getHelp() {
-    return this.helpText;
+  getShortHelp() {
+    return this.shortHelpText;
+  }
+
+  getLongHelp() {
+    return this.longHelpText;
   }
 
   getArgs() {
@@ -47,9 +52,13 @@ class Command {
   }
 
   static isValid(candidate) {
+    if (candidate === undefined) {
+      return false;
+    }
     return candidate.getTrigger &&
     candidate.execute &&
-    candidate.getHelp &&
+    candidate.getShortHelp &&
+    candidate.getLongHelp &&
     candidate.getArgs &&
     candidate.setup &&
     candidate.finalizeSetup;

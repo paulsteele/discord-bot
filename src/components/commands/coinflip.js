@@ -2,11 +2,12 @@ import Command from '../command';
 import send from '../utils/send';
 
 const triggerText = 'coinflip';
-const helpText = 'flips a coin';
+const shortHelpText = 'flips a coin';
+const longHelpText = 'randomly decides between heads or tails';
 
 class CoinFlipCommand extends Command {
   constructor() {
-    super(triggerText, helpText);
+    super(triggerText, shortHelpText, longHelpText);
     this.result = null;
   }
 

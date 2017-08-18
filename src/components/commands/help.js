@@ -2,17 +2,39 @@ import Command from '../command';
 import send from '../utils/send';
 
 const triggerText = 'help';
-const helpText = 'displays this message';
+const shortHelpText = 'displays information about {command}';
+const longHelpText = 'Displays a list of all commands, and brief descriptions.' +
+  ' If {command} is specified, will display a more detailed help message for that command';
+
+const args = [
+  'command',
+];
 
 class HelpCommand extends Command {
   constructor() {
-    super(triggerText, helpText);
+    super(triggerText, shortHelpText, longHelpText, args);
     this.helpText = null;
   }
 
-  execute(payload) {
-    // payload should be an array of commands + channel to send message
-    if (payload.channel) {
+  execute(payload, command = null) {
+    if (command) {
+      const actualCommand = this.commands[command];
+      if (Command.isValid(actualCommand)) {
+        let messageContent = '```';
+        messageContent += `Command - ${actualCommand.getTrigger()}\n`;
+        const commandArgs = actualCommand.getArgs();
+        if (commandArgs.length) {
+          messageContent += 'Arguments -';
+          commandArgs.forEach((arg) => {
+            messageContent += ` ${Command.getArgIdentifier().start}${arg}${Command.getArgIdentifier().end}`;
+          });
+          messageContent += '\n';
+        }
+        messageContent += actualCommand.getLongHelp();
+        messageContent += '```';
+        send(payload.channel, messageContent);
+      }
+    } else {
       send(payload.channel, this.helpText);
     }
   }
@@ -27,7 +49,7 @@ class HelpCommand extends Command {
       messageContent += Command.getPrefix() + HelpCommand
         .getTriggerAndArgs(command).padEnd(maxCommandLength);
       messageContent += '- ';
-      messageContent += command.getHelp();
+      messageContent += command.getShortHelp();
       if (index !== commandArray.length - 1) {
         messageContent += '\n';
       }
@@ -68,10 +90,10 @@ class HelpCommand extends Command {
     let val = '';
     val += trigger;
     val += ' ';
-    const args = command.getArgs();
-    for (let i = 0; i < args.length; i += 1) {
+    const commandArgs = command.getArgs();
+    for (let i = 0; i < commandArgs.length; i += 1) {
       val += Command.getArgIdentifier().start;
-      val += args[i];
+      val += commandArgs[i];
       val += Command.getArgIdentifier().end;
       val += ' ';
     }

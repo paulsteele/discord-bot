@@ -2,14 +2,17 @@ import Command from '../command';
 import send from '../utils/send';
 
 const triggerText = 'timed';
-const helpText = 'queues a message to be sent with a random delay of max {time}';
+const shortHelpText = 'queues a message to be sent with a random delay of max {time}';
+const longHelpText = 'Will repeat "teyler" at a random time between 0 and {time} minutes.' +
+  ' If the message contains more than just {time} that message will be repeated instead of "teyler"';
+
 const args = [
   'time',
 ];
 
 class TimedCommand extends Command {
   constructor() {
-    super(triggerText, helpText, args);
+    super(triggerText, shortHelpText, longHelpText, args);
     this.sizeLimit = 60;
     this.defaultText = 'teyler';
   }
