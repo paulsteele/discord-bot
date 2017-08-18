@@ -6,7 +6,7 @@ const shortHelpText = 'repeats teyler {count} times with fast/slow {speed}';
 const longHelpText = 'Will repeat "teyler" the number of times specified with {count}.' +
   ' The speed will depend whether {speed} is "fast" or "slow".' +
   ' If both {count} and {speed} are supplied the remaining message will be repeated instead of "teyler"';
-
+const version = '1.0.0';
 const args = [
   'count',
   'speed',
@@ -14,7 +14,7 @@ const args = [
 
 class RepeatCommand extends Command {
   constructor() {
-    super(triggerText, shortHelpText, longHelpText, args);
+    super(triggerText, shortHelpText, longHelpText, version, args);
     this.sizeLimit = 100;
     this.defaultText = 'teyler';
   }

@@ -5,14 +5,14 @@ const triggerText = 'help';
 const shortHelpText = 'displays information about {command}';
 const longHelpText = 'Displays a list of all commands, and brief descriptions.' +
   ' If {command} is specified, will display a more detailed help message for that command';
-
+const version = '1.0.0';
 const args = [
   'command',
 ];
 
 class HelpCommand extends Command {
   constructor() {
-    super(triggerText, shortHelpText, longHelpText, args);
+    super(triggerText, shortHelpText, longHelpText, version, args);
     this.helpText = null;
   }
 
@@ -41,7 +41,7 @@ class HelpCommand extends Command {
 
   finalizeSetup() {
     const commandArray = Object.values(this.commands);
-
+    commandArray.sort(Command.compare);
     const maxCommandLength = HelpCommand.getMaxCommandLength(commandArray);
 
     let messageContent = '```';

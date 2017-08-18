@@ -5,14 +5,14 @@ const triggerText = 'timed';
 const shortHelpText = 'queues a message to be sent with a random delay of max {time}';
 const longHelpText = 'Will repeat "teyler" at a random time between 0 and {time} minutes.' +
   ' If the message contains more than just {time} that message will be repeated instead of "teyler"';
-
+const version = '1.0.0';
 const args = [
   'time',
 ];
 
 class TimedCommand extends Command {
   constructor() {
-    super(triggerText, shortHelpText, longHelpText, args);
+    super(triggerText, shortHelpText, longHelpText, version, args);
     this.sizeLimit = 60;
     this.defaultText = 'teyler';
   }

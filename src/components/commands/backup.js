@@ -4,10 +4,11 @@ import send from '../utils/send';
 const triggerText = 'backup';
 const shortHelpText = 'backs up the author';
 const longHelpText = 'Makes Teyler-bot say "same" after every message from the author';
+const version = '1.0.0';
 
 class BackupCommand extends Command {
   constructor() {
-    super(triggerText, shortHelpText, longHelpText);
+    super(triggerText, shortHelpText, longHelpText, version);
   }
 
   execute(payload) {

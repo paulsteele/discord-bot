@@ -4,10 +4,11 @@ import send from '../utils/send';
 const triggerText = 'backoff';
 const shortHelpText = 'backs off the author';
 const longHelpText = 'Stops Teyler-bot from saying "same" after every message from the author';
+const version = '1.0.0';
 
 class BackoffCommand extends Command {
   constructor() {
-    super(triggerText, shortHelpText, longHelpText);
+    super(triggerText, shortHelpText, longHelpText, version);
   }
 
   execute(payload) {

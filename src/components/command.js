@@ -1,9 +1,10 @@
 class Command {
-  constructor(triggerText, shortHelpText, longHelpText, args = []) {
+  constructor(triggerText, shortHelpText, longHelpText, version, args = []) {
     this.triggerText = triggerText;
     this.args = args;
     this.shortHelpText = shortHelpText;
     this.longHelpText = longHelpText;
+    this.version = version;
     this.store = null;
     this.handlers = null;
     this.commands = null;
@@ -29,6 +30,10 @@ class Command {
     return this.args;
   }
 
+  getVersion() {
+    return this.version;
+  }
+
   setup(commands, handlers, store) {
     this.commands = commands;
     this.handlers = handlers;
@@ -49,6 +54,15 @@ class Command {
       start: '{',
       end: '}',
     };
+  }
+
+  static compare(a, b) {
+    if (a.getTrigger() < b.getTrigger()) {
+      return -1;
+    } else if (a.getTrigger > b.getTrigger()) {
+      return 1;
+    }
+    return 0;
   }
 
   static isValid(candidate) {
