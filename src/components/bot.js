@@ -26,7 +26,7 @@ class TeylerBot {
 
   registerHandlers() {
     this.handlers.readyHandler = new ReadyHandler(this.client.guilds);
-    this.client.once('ready', this.handlers.readyHandler.handle);
+    // this.client.once('ready', this.handlers.readyHandler.handle);
     this.handlers.messageHandler = new MessageHandler(this.commands);
     this.client.on('message', this.handlers.messageHandler.handle);
   }
