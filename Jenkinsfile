@@ -36,8 +36,8 @@ pipeline {
       }
       steps {
         sh "docker build -t teyler-bot ."
-        sh "docker-compose down -f /srv/deployment/docker-compose.yml"
-        sh "docker-compose up -d -f /srv/deployment/docker-compose.yml"
+        sh "docker-compose -f /srv/deployment/docker-compose.yml down"
+        sh "docker-compose -f /srv/deployment/docker-compose.yml up -d"
       }
     }
   }

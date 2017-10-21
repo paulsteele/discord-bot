@@ -4,4 +4,4 @@ services:
     image: "teyler-bot:latest"
     restart: always
     environment:
-      - DISCORDTOKEN=DISCORD_TOKEN
+      - DISCORD_KEY=DISCORD_TOKEN
