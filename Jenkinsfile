@@ -35,9 +35,9 @@ pipeline {
         branch 'master'
       }
       steps {
-        sh "sudo /srv/deployment/stopTeylerBot.sh"
-        sh "cp -R ./* /srv/deployment/teyler-bot"
-        sh "sudo /srv/deployment/startTeylerBot.sh"
+        sh "docker-compose down"
+        sh "docker build -t teyler-bot ."
+        sh "docker-compose up -d"
       }
     }
   }

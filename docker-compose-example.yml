@@ -1,0 +1,7 @@
+version: "3"
+services:
+  teyler-bot:
+    image: "teyler-bot:latest"
+    restart: always
+    environment:
+      - DISCORDTOKEN=DISCORD_TOKEN
