@@ -35,6 +35,7 @@ pipeline {
         branch 'master'
       }
       steps {
+        sh "cd /srv/deployment"
         sh "docker-compose down"
         sh "docker build -t teyler-bot ."
         sh "docker-compose up -d"
