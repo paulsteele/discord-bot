@@ -54,7 +54,7 @@ class PlayCommand extends Command {
             voiceChannel.leave();
           };
           dispatcher.on('end', stopPlaying);
-          dispatcher.on('error', stopPlaying);
+          dispatcher.on('error', () => { console.log(err); stopPlaying(); });
           this.store.playQueue.push(dispatcher);
         });
     });
