@@ -18,7 +18,7 @@ class CoinFlipCommand extends Command {
     } else {
       this.result = 'tails';
     }
-    send(payload.channel, `${payload.author} the result was ${this.result}!`);
+    send(payload.channel, `<@${payload.author.id}> the result was ${this.result}!`);
   }
 }
 

@@ -15,9 +15,9 @@ class BackupCommand extends Command {
     if (payload.author) {
       if (!this.store.backups[payload.author.id]) {
         this.store.backups[payload.author.id] = true;
-        send(payload.channel, `${payload.author}, backing you up`);
+        send(payload.channel, `<@${payload.author.id}>, backing you up`);
       } else {
-        send(payload.channel, `${payload.author}, I am already backing you up`);
+        send(payload.channel, `<@${payload.author.id}>, I am already backing you up`);
       }
     }
   }

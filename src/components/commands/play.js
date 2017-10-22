@@ -28,12 +28,12 @@ class PlayCommand extends Command {
     const { voiceChannel } = author;
 
     if (!voiceChannel) {
-      send(channel, 'you must be in a voice channel to play audio');
+      send(channel, `<@${payload.author.id}> you must be in a voice channel to play audio`);
       return;
     }
 
     if (this.store.playQueue.length > 0) {
-      send(channel, 'something is already playing, you can stop it with `!stop`');
+      send(channel, `<@${payload.author.id}> something is already playing, you can stop it with \`!stop\``);
       return;
     }
 

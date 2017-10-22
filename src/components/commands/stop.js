@@ -18,7 +18,7 @@ class StopCommand extends Command {
       const stream = this.store.playQueue.pop();
       stream.end();
     } else {
-      send(payload.channel, `${payload.author}, there is nothing playing right now.`);
+      send(payload.channel, `<@${payload.author.id}>, there is nothing playing right now.`);
     }
   }
 }

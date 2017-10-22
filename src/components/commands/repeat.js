@@ -23,12 +23,12 @@ class RepeatCommand extends Command {
     // payload should be an array of commands + channel to send message
     if (payload.channel) {
       if (isNaN(count) || count < 1) {
-        send(payload.channel, `${payload.author} can only use positive integers for count`);
+        send(payload.channel, `<@${payload.author.id}> can only use positive integers for count`);
         return;
       }
 
       if (count > this.sizeLimit) {
-        send(payload.channel, `${payload.author} the max number of repeats is ${this.sizeLimit}`);
+        send(payload.channel, `<@${payload.author.id}> the max number of repeats is ${this.sizeLimit}`);
         return;
       }
       let text = this.defaultText;

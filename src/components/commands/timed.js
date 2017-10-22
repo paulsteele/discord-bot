@@ -21,12 +21,12 @@ class TimedCommand extends Command {
     // payload should be an array of commands + channel to send message
     if (payload.channel) {
       if (isNaN(time) || time < 0) {
-        send(payload.channel, `${payload.author} can only use positive integers for time`);
+        send(payload.channel, `<@${payload.author.id}> can only use positive integers for time`);
         return;
       }
 
       if (time > this.sizeLimit) {
-        send(payload.channel, `${payload.author} the max time is ${this.sizeLimit}`);
+        send(payload.channel, `<@${payload.author.id}> the max time is ${this.sizeLimit}`);
         return;
       }
       let text = this.defaultText;
