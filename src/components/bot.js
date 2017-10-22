@@ -20,8 +20,8 @@ class TeylerBot {
   }
 
   connect() {
-    const { DISCORD_KEY } = process.env;
-    this.client.login(DISCORD_KEY);
+    const { DISCORD_TOKEN } = process.env;
+    this.client.login(DISCORD_TOKEN);
   }
 
   registerHandlers() {
