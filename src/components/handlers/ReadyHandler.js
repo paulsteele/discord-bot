@@ -11,8 +11,16 @@ class ReadyHandler {
   handle() {
     console.log('I am ready!');
     this.guilds.array().forEach((guild) => {
-      const channel = guild.defaultChannel;
-      send(channel, `**Teyler-bot V${version}** has started! type \`!help\` for a list of commands. Type \`!new\` to see what's new.`);
+      const topChannel = guild.channels.reduce((previous, channel) => {
+        if ((!previous || (previous && previous.position > channel.position)) && channel.type === 'text') {
+          return channel;
+        }
+        return previous;
+      }, null);
+
+      if (topChannel) {
+        send(topChannel, `**Teyler-bot V${version}** has started! type \`!help\` for a list of commands. Type \`!new\` to see what's new.`);
+      }
     });
   }
 }

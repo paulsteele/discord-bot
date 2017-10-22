@@ -20,9 +20,14 @@ class MessageHandler {
       if (command) {
         const splitArg = seperateArgsFromContent(splitContent.contentText,
           command.getArgs().length);
+        const author = {
+          ...message.author,
+          voiceChannel: message.member.voiceChannel,
+        };
         const payload = {
+          author,
           channel: message.channel,
-          author: message.author,
+          voiceChannel: message.member.voiceChannel,
           contentText: splitArg.contentText,
         };
         command.execute(payload, ...splitArg.argArray);

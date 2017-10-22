@@ -5,3 +5,5 @@ export { default as backupCommand } from './backup';
 export { default as backoffCommand } from './backoff';
 export { default as coinflipCommand } from './coinflip';
 export { default as newCommand } from './new';
+export { default as playCommand } from './play';
+export { default as stopCommand } from './stop';

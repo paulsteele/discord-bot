@@ -13,8 +13,8 @@ class BackupCommand extends Command {
 
   execute(payload) {
     if (payload.author) {
-      if (!this.store.backups[payload.author]) {
-        this.store.backups[payload.author] = true;
+      if (!this.store.backups[payload.author.id]) {
+        this.store.backups[payload.author.id] = true;
         send(payload.channel, `${payload.author}, backing you up`);
       } else {
         send(payload.channel, `${payload.author}, I am already backing you up`);
@@ -30,7 +30,7 @@ class BackupCommand extends Command {
   }
 
   handle(message) {
-    if (this.store.backups[message.author]) {
+    if (this.store.backups[message.author.id]) {
       send(message.channel, `${message.author} same`);
     }
   }

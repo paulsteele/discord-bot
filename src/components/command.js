@@ -41,7 +41,7 @@ class Command {
     this.finalizeSetup();
   }
 
-  finalizeSetup() { // eslint-disable-line class-methods-use-this
+  finalizeSetup() {
     // meant to be overwritten if needed
   }
 

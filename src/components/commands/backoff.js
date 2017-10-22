@@ -13,8 +13,8 @@ class BackoffCommand extends Command {
 
   execute(payload) {
     if (payload.author) {
-      if (this.store.backups[payload.author]) {
-        this.store.backups[payload.author] = undefined;
+      if (this.store.backups[payload.author.id]) {
+        this.store.backups[payload.author.id] = undefined;
         send(payload.channel, `${payload.author}, backing off`);
       } else {
         send(payload.channel, `${payload.author}, I wasn't backing you up...`);
