@@ -7,6 +7,7 @@ A discord bot for a small server of the best guy!
 * Install all dependecies
 ```bash
 npm install
+npm run install-ffmpeg
 ```
 
 ## Run Standalone

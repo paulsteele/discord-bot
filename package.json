@@ -11,6 +11,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "test": "jest .",
+    "install-ffmpeg": "ffbinaries ffmpeg -o ./node_modules/.bin",
     "test:watch": "jest --watch .",
     "test:coverage": "jest --coverage"
   },
@@ -44,7 +45,7 @@
     "bufferutil": "^3.0.2",
     "discord.js": "^11.2.1",
     "erlpack": "github:hammerandchisel/erlpack",
-    "ffmpeg-binaries": "^3.2.2-3",
+    "ffbinaries": "^1.0.3",
     "libsodium": "^0.5.4",
     "node-opus": "^0.2.6",
     "opusscript": "0.0.3",
