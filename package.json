@@ -47,7 +47,6 @@
     "erlpack": "github:hammerandchisel/erlpack",
     "ffbinaries": "^1.0.3",
     "libsodium": "^0.5.4",
-    "node-opus": "^0.2.6",
     "opusscript": "0.0.3",
     "ytdl-core": "^0.18.1"
   },
