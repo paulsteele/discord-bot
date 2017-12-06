@@ -12,7 +12,7 @@ pipeline {
     }
     stage('Install Dependencies') {
       steps {
-        sh 'npm install'
+        sh 'npm install --unsafe-perm'
       }
     }
     stage('Lint') {
