@@ -1,6 +1,0 @@
-//Rename this file to tokens.js
-
-// the token of your bot - https://discordapp.com/developers/applications/me
-const discordToken = 'ENTER TOKEN HERE';
-
-export default discordToken;

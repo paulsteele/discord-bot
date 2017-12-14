@@ -22,12 +22,11 @@ class MessageHandler {
           command.getArgs().length);
         const author = {
           ...message.author,
-          voiceChannel: message.member.voiceChannel,
+          voiceChannel: message.member ? message.member.voiceChannel : null,
         };
         const payload = {
           author,
           channel: message.channel,
-          voiceChannel: message.member.voiceChannel,
           contentText: splitArg.contentText,
         };
         command.execute(payload, ...splitArg.argArray);
