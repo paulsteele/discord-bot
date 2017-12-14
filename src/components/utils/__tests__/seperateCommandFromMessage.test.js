@@ -1,10 +1,12 @@
 import seperateCommandFromMessage from '../seperateCommandFromMessage';
+import Command from '../../command';
 
 describe('seperateCommandFromMessage', () => {
-  const normalCommand = '!help me please';
-  const spacedCommand = '!help         wow';
-  const noContentCommand = '!help';
-  const oneLetterCommand = '!y n';
+  const prefix = Command.getPrefix();
+  const normalCommand = `${prefix}help me please`;
+  const spacedCommand = `${prefix}help         wow`;
+  const noContentCommand = `${prefix}help`;
+  const oneLetterCommand = `${prefix}y n`;
 
   it('should return correct values for a message with some content', () => {
     const phrase = normalCommand;
@@ -70,7 +72,7 @@ describe('seperateCommandFromMessage', () => {
   });
 
   it('should return safe values on just the command Prefix', () => {
-    const phrase = '!';
+    const phrase = prefix;
     const command = seperateCommandFromMessage(phrase);
     expect(command.command).toEqual('');
     expect(command.contentText).toEqual(null);

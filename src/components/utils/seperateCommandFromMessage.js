@@ -10,7 +10,9 @@ export default function (content) {
       endIndex = workingContent.length;
     }
 
-    command = workingContent.substr(Command.getPrefix().length, endIndex).trim();
+    const prefixLength = Command.getPrefix().length;
+    command = workingContent.substr(prefixLength, (endIndex - prefixLength) + 1).trim();
+
     contentText = null;
     if (endIndex !== workingContent.length) {
       contentText = workingContent.substr(endIndex + 1, workingContent.length).trim();

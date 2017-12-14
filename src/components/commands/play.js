@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import ytdl from 'ytdl-core';
 
 import Command from '../command';
