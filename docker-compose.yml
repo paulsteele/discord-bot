@@ -1,4 +1,5 @@
 version: "3"
+#Testing docker-compose deploy
 services:
   teyler-bot:
     image: "teyler-bot:latest"

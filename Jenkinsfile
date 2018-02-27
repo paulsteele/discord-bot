@@ -36,6 +36,7 @@ pipeline {
       }
       steps {
         sh "docker build -t teyler-bot ."
+        sh "cp docker-compose.yml /teyler-bot/docker-compose.yml"
         sh "docker-compose -f /teyler-bot/docker-compose.yml down"
         sh "docker-compose -f /teyler-bot/docker-compose.yml up -d"
       }
