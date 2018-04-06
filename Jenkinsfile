@@ -1,45 +1,30 @@
-pipeline {
-  agent any
-  options {
-    skipDefaultCheckout()
-  }
+def label = "discord-bot-ci"
 
-  stages {
-    stage('Checkout') {
-      steps {
-        checkout scm
-      }
-    }
+podTemplate(label: label, containers: [
+  containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true),
+  containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.8.8', command: 'cat', ttyEnabled: true),
+  containerTemplate(name: 'node', image: 'node', command: 'cat', ttyEnabled: true)
+],
+volumes: [
+  hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
+]) {
+  node(label) {
+    def myRepo = checkout scm
+    def gitCommit = myRepo.GIT_COMMIT
+    def gitBranch = myRepo.GIT_BRANCH
+    def shortGitCommit = "${gitCommit[0..10]}"
+    def previousGitCommit = sh(script: "git rev-parse ${gitCommit}~", returnStdout: true)
+
     stage('Install Dependencies') {
-      steps {
-        sh 'npm install'
-      }
+      sh "npm install"
     }
+
     stage('Lint') {
-      steps {
-        sh 'npm run lint'
-      }
+      sh "npm run lint"
     }
+
     stage('Test') {
-      steps {
-        sh 'npm test'
-      }
-    }
-    stage('Build') {
-      steps {
-        sh 'npm run build'
-      }
-    }
-    stage('Deploy') {
-      when {
-        branch 'master'
-      }
-      steps {
-        sh "docker build -t teyler-bot ."
-        sh "cp docker-compose.yml /teyler-bot/docker-compose.yml"
-        sh "docker-compose -f /teyler-bot/docker-compose.yml down"
-        sh "docker-compose -f /teyler-bot/docker-compose.yml up -d"
-      }
+      sh "npm test"
     }
   }
 }

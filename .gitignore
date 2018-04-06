@@ -4,3 +4,4 @@ package-lock.json
 teyler-bot.tar
 coverage/
 tokens.env
+.vscode/
