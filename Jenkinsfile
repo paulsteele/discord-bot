@@ -16,15 +16,27 @@ volumes: [
     def previousGitCommit = sh(script: "git rev-parse ${gitCommit}~", returnStdout: true)
 
     stage('Install Dependencies') {
-      sh "npm install"
+      container('node') {
+        sh "npm install"
+      }
     }
 
     stage('Lint') {
-      sh "npm run lint"
+      container('node') {
+        sh "npm run lint"
+      }
     }
 
     stage('Test') {
-      sh "npm test"
+      container('node') {
+        sh "npm test"
+      }
+    }
+
+    stage('Kubectl test') {
+      container('kubectl') {
+        sh "kubectl get pods"
+      }
     }
   }
 }
