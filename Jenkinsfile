@@ -2,8 +2,7 @@ def label = "discord-bot-ci"
 
 podTemplate(label: label, containers: [
   containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true),
-  containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.8.8', command: 'cat', ttyEnabled: true),
-  containerTemplate(name: 'node', image: 'node', command: 'cat', ttyEnabled: true)
+  containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.8.8', command: 'cat', ttyEnabled: true)
 ],
 volumes: [
   hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
@@ -15,27 +14,21 @@ volumes: [
     def shortGitCommit = "${gitCommit[0..10]}"
     def previousGitCommit = sh(script: "git rev-parse ${gitCommit}~", returnStdout: true)
 
-    stage('Install Dependencies') {
-      container('node') {
-        // sh "npm install"
+    stage('Build') {
+      container('docker') {
+        sh "docker build . -t registry.paul-steele.com/teyler-bot:latest"
       }
     }
 
-    stage('Lint') {
-      container('node') {
-        // sh "npm run lint"
+    stage('Push to Registry') {
+      container('docker') {
+        sh "docker push registry.paul-steele.com/teyler-bot:latest"
       }
     }
 
-    stage('Test') {
-      container('node') {
-        // sh "npm test"
-      }
-    }
-
-    stage('Kubectl test') {
+    stage('Deploy') {
       container('kubectl') {
-        sh "kubectl create secret generic teyler --type=string --from-literal=key=val --dry-run"
+        echo "deploy"
       }
     }
   }

@@ -18,7 +18,7 @@ class ReadyHandler {
         return previous;
       }, null);
 
-      if (topChannel) {
+      if (false && topChannel) {
         send(topChannel, `**Teyler-bot V${version}** has started! type \`!help\` for a list of commands. Type \`!new\` to see what's new.`);
       }
     });

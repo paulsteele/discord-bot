@@ -40,6 +40,7 @@ class PlayCommand extends Command {
 
     ytdl.getInfo(audioUrl, ['-q', '--no-warnings'], (err, info) => {
       if (err || !info.video_id) {
+        console.log(err);
         send(channel, 'Invalid audio URL');
         return;
       }
