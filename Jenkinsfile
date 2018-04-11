@@ -1,6 +1,6 @@
 def label = "discord-bot-ci"
 
-podTemplate(label: label, containers: [
+podTemplate(label: label, serviceAccount: 'ci-jenkins', containers: [
   containerTemplate(name: 'docker', image: 'docker:dind', command: 'cat', ttyEnabled: true),
   containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.8.8', command: 'cat', ttyEnabled: true)
 ],
