@@ -1,11 +1,12 @@
 def label = "discord-bot-ci"
 
 podTemplate(label: label, containers: [
-  containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true),
+  containerTemplate(name: 'docker', image: 'docker:dind', command: 'cat', ttyEnabled: true),
   containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.8.8', command: 'cat', ttyEnabled: true)
 ],
 volumes: [
-  hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
+  hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
+  // hostPathVolume(mountPath: '/var/lib/docker/overlay2', hostPath: '/var/lib/docker/overlay2'),
 ]) {
   node(label) {
     def myRepo = checkout scm
