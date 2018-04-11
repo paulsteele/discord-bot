@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: teyler-bot
-          image: registry.paul-steele.com/teyler-bot:latest
+          image: teyler-bot:latest
           env:
             - name: DISCORD_TOKEN
               valueFrom:
