@@ -17,25 +17,25 @@ volumes: [
 
     stage('Install Dependencies') {
       container('node') {
-        sh "npm install"
+        // sh "npm install"
       }
     }
 
     stage('Lint') {
       container('node') {
-        sh "npm run lint"
+        // sh "npm run lint"
       }
     }
 
     stage('Test') {
       container('node') {
-        sh "npm test"
+        // sh "npm test"
       }
     }
 
     stage('Kubectl test') {
       container('kubectl') {
-        sh "kubectl get pods"
+        sh "kubectl create secret generic teyler --type=string --from-literal=key=val --dry-run"
       }
     }
   }
