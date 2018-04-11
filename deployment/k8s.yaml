@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: teyler-bot
+  labels:
+    app: teyler-bot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: teyler-bot
+  template: 
+    metadata:
+      labels:
+        app: teyler-bot
+    spec:
+      containers:
+        - name: teyler-bot
+          image: registry.paul-steele.com/teyler-bot:latest
+          env:
+            - name: DISCORD_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: teyler-bot-token
+                  key: discordToken

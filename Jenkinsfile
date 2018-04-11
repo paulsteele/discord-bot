@@ -22,7 +22,9 @@ volumes: [
 
     stage('Push to Registry') {
       container('docker') {
-        sh "docker push registry.paul-steele.com/teyler-bot:latest"
+        withDockerRegistry([credentialsId: 'docker-registry', url: "https://registry.paul-steele.com/"]) {
+          sh "docker push registry.paul-steele.com/teyler-bot:latest"
+        }
       }
     }
 
