@@ -5,8 +5,7 @@ podTemplate(label: label, serviceAccount: 'ci-jenkins', containers: [
   containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.8.8', command: 'cat', ttyEnabled: true)
 ],
 volumes: [
-  hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
-  // hostPathVolume(mountPath: '/var/lib/docker/overlay2', hostPath: '/var/lib/docker/overlay2'),
+  hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
 ]) {
   node(label) {
     def myRepo = checkout scm
@@ -17,17 +16,17 @@ volumes: [
 
     stage('Build') {
       container('docker') {
-        sh "docker build . -t teyler-bot:latest"
+        sh "docker build . -t registry.paul-steele.com/teyler-bot:latest"
       }
     }
 
-    // stage('Push to Registry') {
-    //   container('docker') {
-    //     withDockerRegistry([credentialsId: 'docker-registry', url: "https://registry.paul-steele.com/"]) {
-    //       sh "docker push registry.paul-steele.com/teyler-bot:latest"
-    //     }
-    //   }
-    // }
+    stage('Push to Registry') {
+      container('docker') {
+        withDockerRegistry([credentialsId: 'docker-registry', url: "https://registry.paul-steele.com/"]) {
+          sh "docker push registry.paul-steele.com/teyler-bot:latest"
+        }
+      }
+    }
 
     stage('Deploy') {
       container('kubectl') {
