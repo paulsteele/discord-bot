@@ -16,10 +16,12 @@ spec:
     spec:
       containers:
         - name: teyler-bot
-          image: teyler-bot:latest
+          image: registry.paul-steele.com/teyler-bot:latest
           env:
             - name: DISCORD_TOKEN
               valueFrom:
                 secretKeyRef:
                   name: teyler-bot-token
                   key: discordToken
+      imagePullSecrets:
+        - name: registry.paul-steele.com
