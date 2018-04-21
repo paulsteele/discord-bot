@@ -20,17 +20,19 @@ volumes: [
       }
     }
 
-    stage('Push to Registry') {
-      container('docker') {
-        withDockerRegistry([credentialsId: 'docker-registry', url: "https://registry.paul-steele.com/"]) {
-          sh "docker push registry.paul-steele.com/teyler-bot:latest"
+    if (gitBranch == "master") {
+      stage('Push to Registry') {
+        container('docker') {
+          withDockerRegistry([credentialsId: 'docker-registry', url: "https://registry.paul-steele.com/"]) {
+            sh "docker push registry.paul-steele.com/teyler-bot:latest"
+          }
         }
       }
-    }
 
-    stage('Deploy') {
-      container('kubectl') {
-        sh "kubectl apply -f ./deployment/k8s.yaml"
+      stage('Deploy') {
+        container('kubectl') {
+          sh "kubectl apply -f ./deployment/k8s.yaml"
+        }
       }
     }
   }
