@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: teyler-bot
+  namespace: deployments
   labels:
     app: teyler-bot
 spec:
@@ -9,7 +10,7 @@ spec:
   selector:
     matchLabels:
       app: teyler-bot
-  template: 
+  template:
     metadata:
       labels:
         app: teyler-bot
