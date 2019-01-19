@@ -5,3 +5,4 @@ teyler-bot.tar
 coverage/
 tokens.env
 .vscode/
+deployment/k8s.yaml

@@ -7,3 +7,4 @@ export { default as coinflipCommand } from './coinflip';
 export { default as newCommand } from './new';
 export { default as playCommand } from './play';
 export { default as stopCommand } from './stop';
+export { default as snapshotCommand } from './snapshot';
