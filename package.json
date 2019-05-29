@@ -38,7 +38,7 @@
     "eslint-plugin-react": "^7.1.0",
     "jest": "^24.8.0",
     "nodemon": "^1.11.0",
-    "regenerator-runtime": "^0.10.5",
+    "regenerator-runtime": "^0.13.2",
     "uws": "^100.0.1"
   },
   "dependencies": {
