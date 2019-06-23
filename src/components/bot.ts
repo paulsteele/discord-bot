@@ -1,15 +1,19 @@
-/* eslint-disable no-console */
-// import the discord.js module
-import Discord from 'discord.js';
-import * as commands from './commands';
-import Command from './command';
+import { Discord } from 'discord-js'
+import * as commands from './commands/index';
+import Command from './Command';
 import ReadyHandler from './handlers/ReadyHandler';
 import MessageHandler from './handlers/MessageHandler';
 
 class TeylerBot {
+
+  client: Discord.Client;
+  commands: Map<string, Command>;
+  handlers: any;
+  store: any;
+
   constructor() {
     this.client = new Discord.Client();
-    this.commands = {};
+    this.commands = [];
     this.handlers = {};
     this.store = {};
 
@@ -33,13 +37,9 @@ class TeylerBot {
 
   registerCommands() {
     Object.values(commands).forEach((command) => {
-      if (Command.isValid(command)) {
         this.commands[command.getTrigger()] = command;
-      } else {
-        console.log(command);
-        console.log('could not be loaded as a command');
       }
-    });
+    );
   }
 
   setUpCommands() {

@@ -1,15 +1,13 @@
 {
   "name": "teyler_bot",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "description": "A discord bot inspired by teyler!",
   "main": "index.js",
   "scripts": {
-    "prestart": "npm run lint && npm run test",
-    "start": "dotenv -e tokens.env nodemon -- src/index.js --exec babel-node",
-    "build": "babel src -d dist",
+    "start": "dotenv -e tokens.env ts-node-dev src/index.ts",
+    "build": "tsc",
     "serve": "node dist/index.js",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "lint": "tslint -c ./tslint.json './**/*.ts'",
     "test": "jest .",
     "install-ffmpeg": "ffbinaries ffmpeg -o ./node_modules/.bin",
     "test:watch": "jest --watch .",
@@ -27,6 +25,7 @@
   "homepage": "https://github.com/paulsteele/discord-bot#readme",
   "devDependencies": {
     "@types/jest": "^24.0.15",
+    "@types/node": "^12.0.10",
     "dotenv-cli": "^2.0.0",
     "jest": "^24.8.0",
     "nodemon": "^1.11.0",

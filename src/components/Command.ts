@@ -1,20 +1,32 @@
+import MessageHandler from '../components/handlers/MessageHandler'
+
 class Command {
-  constructor(triggerText, shortHelpText, longHelpText, version, args = []) {
+
+  triggerText: string;
+  args: string[];
+  shortHelpText: string;
+  longHelpText: string;
+  version: string;
+  store: any;
+  handlers: MessageHandler[];
+  commands: Command[];
+
+  constructor(triggerText: string, shortHelpText:string , longHelpText: string, version:string, args = []) {
     this.triggerText = triggerText;
     this.args = args;
     this.shortHelpText = shortHelpText;
     this.longHelpText = longHelpText;
     this.version = version;
     this.store = null;
-    this.handlers = null;
-    this.commands = null;
+    this.handlers = [];
+    this.commands = [];
   }
 
-  getTrigger() {
+  getTrigger(): string {
     return this.triggerText;
   }
 
-  execute() { // eslint-disable-line class-methods-use-this
+  execute() {
     // meant to be overwritten if needed
   }
 
@@ -34,7 +46,7 @@ class Command {
     return this.version;
   }
 
-  setup(commands, handlers, store) {
+  setup(commands: Command[], handlers: MessageHandler[], store) {
     this.commands = commands;
     this.handlers = handlers;
     this.store = store;
@@ -56,27 +68,14 @@ class Command {
     };
   }
 
-  static compare(a, b) {
+  static compare(a: Command, b: Command) {
     if (a.getTrigger() < b.getTrigger()) {
       return -1;
-    } else if (a.getTrigger > b.getTrigger()) {
+    }
+    if (a.getTrigger() > b.getTrigger()) {
       return 1;
     }
     return 0;
-  }
-
-  static isValid(candidate) {
-    if (candidate === undefined) {
-      return false;
-    }
-    return candidate.getTrigger &&
-    candidate.execute &&
-    candidate.getShortHelp &&
-    candidate.getLongHelp &&
-    candidate.getArgs &&
-    candidate.setup &&
-    candidate.finalizeSetup &&
-    candidate.getVersion;
   }
 }
 

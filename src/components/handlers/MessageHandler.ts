@@ -1,15 +1,18 @@
-import Command from '../command';
+import { Message } from 'discord.js';
+import Command from '../Command';
 import seperateCommandFromMessage from '../utils/seperateCommandFromMessage';
 import seperateArgsFromContent from '../utils/seperateArgsFromContent';
 
 class MessageHandler {
-  constructor(commands) {
+  commands: Command[];
+  listeners: any[];
+  constructor(commands: Command[]) {
     this.commands = commands;
     this.handle = this.handle.bind(this);
     this.listeners = [];
   }
 
-  handle(message) {
+  handle(message: Message) {
     if (message.author.bot) {
       return;
     }
