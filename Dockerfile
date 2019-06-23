@@ -1,12 +1,12 @@
 #Base Image
-FROM node:carbon-alpine as base
+FROM node:11-alpine as base
 
 WORKDIR /teyler-bot
 
 COPY ./package.json ./package.json
 
 #Builder
-FROM base as builder 
+FROM base as builder
 
 RUN apk update && apk upgrade && apk add --no-cache git python make g++
 
@@ -15,7 +15,7 @@ COPY ./.babelrc ./.babelrc
 COPY ./.eslintignore ./.eslintignore
 COPY ./.eslintrc.json ./.eslintrc
 
-RUN npm install 
+RUN npm install
 RUN npm run build
 RUN npm run install-ffmpeg
 
