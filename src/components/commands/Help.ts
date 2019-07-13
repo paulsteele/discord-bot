@@ -1,7 +1,8 @@
-import Command from '../Command';
-import send from '../utils/send';
+import Bot from '../Bot';
+import Command, { Payload } from '../Command';
 import getHelpMessage from '../utils/getHelpMessage';
 import getMaxCommandLength from '../utils/getMaxCommandLength';
+import send from '../utils/send';
 
 const triggerText = 'help';
 const shortHelpText = 'displays information about {command}';
@@ -13,37 +14,41 @@ const args = [
 ];
 
 class HelpCommand extends Command {
-  constructor() {
-    super(triggerText, shortHelpText, longHelpText, version, args);
+  helpList: string;
+
+  constructor(bot: Bot) {
+    super(bot);
+    this.triggerText = triggerText;
+    this.shortHelpText = shortHelpText;
+    this.longHelpText = longHelpText;
+    this.version = version;
+    this.args = args;
+    this.helpList = "";
   }
 
-  execute(payload, command = null) {
+  execute(payload: Payload, command: Command) {
     if (command) {
-      const actualCommand = this.commands[command];
-      if (Command.isValid(actualCommand)) {
-        let messageContent = '```';
-        messageContent += `Command - ${actualCommand.getTrigger()}\n`;
-        const commandArgs = actualCommand.getArgs();
-        if (commandArgs.length) {
-          messageContent += 'Arguments -';
-          commandArgs.forEach((arg) => {
-            messageContent += ` ${Command.getArgIdentifier().start}${arg}${Command.getArgIdentifier().end}`;
-          });
-          messageContent += '\n';
-        }
-        messageContent += actualCommand.getLongHelp();
-        messageContent += '```';
-        send(payload.channel, messageContent);
-      } else {
-        send(payload.channel, `Command \`${command}\` was not found`);
+      const actualCommand = this.bot.getCommand(command.getTrigger());
+      let messageContent = '```';
+      messageContent += `Command - ${actualCommand.getTrigger()}\n`;
+      const commandArgs = actualCommand.getArgs();
+      if (commandArgs.length) {
+        messageContent += 'Arguments -';
+        commandArgs.forEach((arg) => {
+          messageContent += ` ${Command.getArgIdentifier().start}${arg}${Command.getArgIdentifier().end}`;
+        });
+        messageContent += '\n';
       }
+      messageContent += actualCommand.getLongHelp();
+      messageContent += '```';
+      send(payload.channel, messageContent);
     } else {
-      send(payload.channel, this.helpText);
+      send(payload.channel, this.helpList);
     }
   }
 
   finalizeSetup() {
-    const commandArray = Object.values(this.commands);
+    const commandArray = Object.values(this.bot.getCommands());
     commandArray.sort(Command.compare);
     const maxCommandLength = getMaxCommandLength(commandArray);
 
@@ -52,8 +57,8 @@ class HelpCommand extends Command {
       messageContent += getHelpMessage(command, index, commandArray.length, maxCommandLength);
     });
     messageContent += '```';
-    this.helpText = messageContent;
+    this.helpList = messageContent;
   }
 }
 
-export default new HelpCommand();
+export default HelpCommand;

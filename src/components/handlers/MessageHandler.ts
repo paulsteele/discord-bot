@@ -4,9 +4,9 @@ import seperateCommandFromMessage from '../utils/seperateCommandFromMessage';
 import seperateArgsFromContent from '../utils/seperateArgsFromContent';
 
 class MessageHandler {
-  commands: Command[];
+  commands: Record<string, Command>;
   listeners: any[];
-  constructor(client: Client, commands: Command[]) {
+  constructor(client: Client, commands: Record<string, Command>) {
     this.commands = commands;
     this.handle = this.handle.bind(this);
     this.listeners = [];
@@ -25,15 +25,12 @@ class MessageHandler {
       if (command) {
         const splitArg = seperateArgsFromContent(splitContent.contentText,
           command.getArgs().length);
-        const author = {
-          ...message.author,
-          voiceChannel: message.member ? message.member.voiceChannel : null,
-        };
         const payload = {
-          author,
+          author: message.author,
           channel: message.channel,
           contentText: splitArg.contentText,
         };
+
         command.execute(payload, ...splitArg.argArray);
       }
     } else { // handle other listeners

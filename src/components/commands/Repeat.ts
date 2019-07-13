@@ -1,5 +1,6 @@
 import { Message } from 'discord.js';
-import Command from '../Command';
+import Bot from '../Bot';
+import Command, {Payload} from '../Command';
 import send from '../utils/send';
 
 const triggerText = 'teyler';
@@ -17,13 +18,18 @@ class RepeatCommand extends Command {
   sizeLimit: number;
   defaultText: string;
 
-  constructor() {
-    super(triggerText, shortHelpText, longHelpText, version, args);
+  constructor(bot: Bot) {
+    super(bot)
+    this.triggerText = triggerText;
+    this.shortHelpText = shortHelpText;
+    this.longHelpText = longHelpText;
+    this.version = version;
+    this.args = args;
     this.sizeLimit = 100;
     this.defaultText = 'teyler';
   }
 
-  execute(payload: Message, count = 1, speed = 'slow') {
+  execute(payload: Payload, count = 1, speed = 'slow') {
     // payload should be an array of commands + channel to send message
     if (payload.channel) {
       if (isNaN(count) || count < 1) {
@@ -36,8 +42,8 @@ class RepeatCommand extends Command {
         return;
       }
       let text = this.defaultText;
-      if (payload.content) {
-        text = payload.content;
+      if (payload.contentText) {
+        text = payload.contentText;
       }
 
       let message = '';
@@ -53,4 +59,4 @@ class RepeatCommand extends Command {
   }
 }
 
-export default new RepeatCommand();
+export default RepeatCommand;

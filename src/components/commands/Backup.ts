@@ -1,5 +1,6 @@
 import { Message } from 'discord.js';
-import Command from '../Command';
+import Bot from '../Bot';
+import Command, { Payload } from '../Command';
 import send from '../utils/send';
 
 const triggerText = 'backup';
@@ -8,14 +9,18 @@ const longHelpText = 'Makes Teyler-bot say "same" after every message from the a
 const version = '1.0.0';
 
 class BackupCommand extends Command {
-  constructor() {
-    super(triggerText, shortHelpText, longHelpText, version);
+  constructor(bot: Bot) {
+    super(bot)
+    this.triggerText = triggerText;
+    this.shortHelpText = shortHelpText;
+    this.longHelpText = longHelpText;
+    this.version = version;
   }
 
-  execute(payload: Message) {
+  execute(payload: Payload) {
     if (payload.author) {
-      if (!this.store.backups[payload.author.id]) {
-        this.store.backups[payload.author.id] = true;
+      if (!this.bot.getStore.backups[payload.author.id]) {
+        this.bot.getStore.backups[payload.author.id] = true;
         send(payload.channel, `<@${payload.author.id}>, backing you up`);
       } else {
         send(payload.channel, `<@${payload.author.id}>, I am already backing you up`);
@@ -37,4 +42,4 @@ class BackupCommand extends Command {
   }
 }
 
-export default new BackupCommand();
+export default BackupCommand;

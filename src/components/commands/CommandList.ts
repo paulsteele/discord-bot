@@ -10,17 +10,21 @@ import Play from './Play';
 import Stop from './Stop';
 import Snapshot from './Snapshot';
 
-const commands: Command[] = [
-  Help,
-  Repeat,
-  Timed,
-  Backup,
-  Backoff,
-  Coinflip,
-  New,
-  Play,
-  Stop,
-  Snapshot
-];
+import Bot from '../Bot';
 
-export default commands;
+function getCommands(bot: Bot): Command[] {
+  return [
+    new Help(bot),
+    new Repeat(bot),
+    new Timed(bot),
+    new Backup(bot),
+    new Backoff(bot),
+    new Coinflip(bot),
+    new New(bot),
+    new Play(bot),
+    new Stop(bot),
+    new Snapshot(bot)
+  ];
+}
+
+export default getCommands;

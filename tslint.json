@@ -5,7 +5,8 @@
   "rules": {
     "variable-name": false,
     "function-name": false,
-    "semicolon": { "severity": "error" }
+    "semicolon": { "severity": "error" },
+    "ordered-imports": true
   },
   "rulesDirectory": []
 }

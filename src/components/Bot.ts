@@ -4,8 +4,7 @@ import Command from './Command';
 import ReadyHandler from './handlers/ReadyHandler';
 import MessageHandler from './handlers/MessageHandler';
 
-class TeylerBot {
-
+class Bot {
   client: Client;
   commands: Record<string, Command>;
   readyHandler: ReadyHandler;
@@ -42,9 +41,25 @@ class TeylerBot {
 
   setUpCommands() {
     Object.values(this.commands).forEach((command) => {
-      command.setup(this.commands, this.handlers, this.store);
+      command.setup(this);
     });
+  }
+
+  getCommands(): Record<string, Command> {
+    return this.commands;
+  }
+
+  getCommand(commandPrefix: string) {
+    return this.commands[commandPrefix];
+  }
+
+  getHandlers(): any[] {
+    return [ this.readyHandler, this.messageHandler ];
+  }
+
+  getStore(): any {
+    return this.store;
   }
 }
 
-export default TeylerBot;
+export default Bot;

@@ -1,5 +1,5 @@
-import { Message } from 'discord.js';
-import Command from '../Command';
+import Bot from '../Bot';
+import Command, { Payload } from '../Command';
 import send from '../utils/send';
 
 const triggerText = 'timed';
@@ -15,13 +15,18 @@ class TimedCommand extends Command {
   sizeLimit: number;
   defaultText: string;
 
-  constructor() {
-    super(triggerText, shortHelpText, longHelpText, version, args);
+  constructor(bot: Bot) {
+    super(bot);
+    this.triggerText = triggerText;
+    this.shortHelpText = shortHelpText;
+    this.longHelpText = longHelpText;
+    this.version = version;
+    this.args = args;
     this.sizeLimit = 60;
     this.defaultText = 'teyler';
   }
 
-  execute(payload: Message, time = 5) {
+  execute(payload: Payload, time = 5) {
     // payload should be an array of commands + channel to send message
     if (payload.channel) {
       if (isNaN(time) || time < 0) {
@@ -34,8 +39,8 @@ class TimedCommand extends Command {
         return;
       }
       let text = this.defaultText;
-      if (payload.content) {
-        text = payload.content;
+      if (payload.contentText) {
+        text = payload.contentText;
       }
 
       let maxDelay = time * 1000 * 60;
@@ -45,4 +50,4 @@ class TimedCommand extends Command {
   }
 }
 
-export default new TimedCommand();
+export default TimedCommand;

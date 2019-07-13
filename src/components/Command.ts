@@ -1,5 +1,12 @@
-import { Message } from 'discord.js';
+import { User, TextChannel, GroupDMChannel, DMChannel } from 'discord.js';
 import MessageHandler from '../components/handlers/MessageHandler';
+import Bot from '../components/Bot';
+
+export interface Payload {
+  author: User;
+  channel: TextChannel | GroupDMChannel | DMChannel;
+  contentText: string;
+}
 
 class Command {
 
@@ -8,26 +15,22 @@ class Command {
   shortHelpText: string;
   longHelpText: string;
   version: string;
-  store: any;
-  handlers: MessageHandler[];
-  commands: Command[];
+  bot: Bot;
 
-  constructor(triggerText: string, shortHelpText:string , longHelpText: string, version:string, args: string[] = []) {
-    this.triggerText = triggerText;
-    this.args = args;
-    this.shortHelpText = shortHelpText;
-    this.longHelpText = longHelpText;
-    this.version = version;
-    this.store = null;
-    this.handlers = [];
-    this.commands = [];
+  constructor(bot: Bot) {
+    this.triggerText = "";
+    this.args = [];
+    this.shortHelpText = "";
+    this.longHelpText = "";
+    this.version = "";
+    this.bot = bot;
   }
 
   getTrigger(): string {
     return this.triggerText;
   }
 
-  execute(payload: Message) {
+  execute(payload: Payload, ...args: any[]) {
     // meant to be overwritten if needed
   }
 
@@ -47,10 +50,7 @@ class Command {
     return this.version;
   }
 
-  setup(commands: Command[], handlers: MessageHandler[], store) {
-    this.commands = commands;
-    this.handlers = handlers;
-    this.store = store;
+  setup(bot: Bot) {
     this.finalizeSetup();
   }
 
