@@ -1,4 +1,4 @@
-import { Message } from 'discord.js';
+import { Client, Message } from 'discord.js';
 import Command from '../Command';
 import seperateCommandFromMessage from '../utils/seperateCommandFromMessage';
 import seperateArgsFromContent from '../utils/seperateArgsFromContent';
@@ -6,10 +6,12 @@ import seperateArgsFromContent from '../utils/seperateArgsFromContent';
 class MessageHandler {
   commands: Command[];
   listeners: any[];
-  constructor(commands: Command[]) {
+  constructor(client: Client, commands: Command[]) {
     this.commands = commands;
     this.handle = this.handle.bind(this);
     this.listeners = [];
+
+    client.on('message', this.handle);
   }
 
   handle(message: Message) {

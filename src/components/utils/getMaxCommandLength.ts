@@ -1,6 +1,6 @@
-import Command from '../command';
+import Command from '../Command';
 
-export default function (commandArray) {
+export default function (commandArray: Command[]): number {
   let length = 0;
   commandArray.forEach((command) => {
     let prefixLength = command.getTrigger().length;

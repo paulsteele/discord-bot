@@ -1,4 +1,5 @@
-import Command from '../command';
+import { Message } from 'discord.js';
+import Command from '../Command';
 import send from '../utils/send';
 
 const triggerText = 'coinflip';
@@ -9,16 +10,14 @@ const version = '1.1.0';
 class CoinFlipCommand extends Command {
   constructor() {
     super(triggerText, shortHelpText, longHelpText, version);
-    this.result = null;
   }
 
-  execute(payload) {
+  execute(payload: Message) {
+    let result = 'heads';
     if (Math.random() < 0.5) {
-      this.result = 'heads';
-    } else {
-      this.result = 'tails';
+      result = 'tails';
     }
-    send(payload.channel, `<@${payload.author.id}> the result was ${this.result}!`);
+    send(payload.channel, `<@${payload.author.id}> the result was ${result}!`);
   }
 }
 

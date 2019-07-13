@@ -1,5 +1,5 @@
-import TeylerBot from './components/bot';
+import Bot from './components/Bot';
 
-const bot = new TeylerBot();
+const bot = new Bot();
 
 bot.connect();

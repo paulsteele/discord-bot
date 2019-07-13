@@ -1,6 +1,7 @@
-import Command from '../command';
+import { Message } from 'discord.js';
+import Command from '../Command';
 import send from '../utils/send';
-import getVersionNumbersFromString from '../utils/getVersionNumbersFromString';
+import Version from '../utils/Version';
 import getHelpMessage from '../utils/getHelpMessage';
 import getMaxCommandLength from '../utils/getMaxCommandLength';
 
@@ -21,21 +22,21 @@ class NewCommand extends Command {
     super(triggerText, shortHelpText, longHelpText, version, args);
   }
 
-  execute(payload, requestVersion = packageVersion) {
+  execute(payload: Message, requestVersion = packageVersion) {
     const message = NewCommand.getNewCommands(requestVersion, this.commands);
 
     send(payload.channel, message);
   }
 
-  static getNewCommands(requestVersion, commands) {
-    const parsedVersion = getVersionNumbersFromString(requestVersion);
+  static getNewCommands(requestVersion: string, commands: Command[]) {
+    const parsedVersion = new Version(requestVersion);
     if (parsedVersion) {
       const commandArray = Object.values(commands);
       commandArray.sort(Command.compare);
-      const newCommands = [];
+      const newCommands:Command[] = [];
 
       commandArray.forEach((command) => {
-        const commandVersion = getVersionNumbersFromString(command.getVersion());
+        const commandVersion = new Version(command.getVersion());
         if (commandVersion && NewCommand.checkIfNewer(parsedVersion, commandVersion)) {
           newCommands.push(command);
         }
@@ -57,15 +58,17 @@ class NewCommand extends Command {
     return 'Version numbers must be of form `<release>.<major>.<minor>`';
   }
 
-  static checkIfNewer(baseVersion, candidateVersion) {
+  static checkIfNewer(baseVersion: Version, candidateVersion: Version) {
     if (candidateVersion.release > baseVersion.release) {
       return true;
-    } else if (candidateVersion.release < baseVersion.release) {
+    }
+    if (candidateVersion.release < baseVersion.release) {
       return false;
     }
     if (candidateVersion.major > baseVersion.major) {
       return true;
-    } else if (candidateVersion.major < baseVersion.major) {
+    }
+    if (candidateVersion.major < baseVersion.major) {
       return false;
     }
     if (candidateVersion.minor >= baseVersion.minor) {

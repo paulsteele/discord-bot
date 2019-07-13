@@ -1,7 +1,6 @@
-/* eslint-disable no-console */
-import ytdl from 'ytdl-core';
-
-import Command from '../command';
+import { Message, GuildMember } from 'discord.js';
+import * as ytdl from 'ytdl-core';
+import Command from '../Command';
 import send from '../utils/send';
 
 const triggerText = 'play';
@@ -16,17 +15,15 @@ const args = [
 class PlayCommand extends Command {
   constructor() {
     super(triggerText, shortHelpText, longHelpText, version, args);
-    this.helpText = null;
   }
 
-  execute(payload, audioUrl = null) {
-    const { channel, author } = payload;
+  execute(payload: Message, audioUrl = "") {
+    const { channel, member } = payload;
     if (!audioUrl) {
       send(channel, 'an {audio_url} must be specifed');
       return;
     }
-
-    const { voiceChannel } = author;
+    const { voiceChannel } = member;
 
     if (!voiceChannel) {
       send(channel, `<@${payload.author.id}> you must be in a voice channel to play audio`);
@@ -38,7 +35,7 @@ class PlayCommand extends Command {
       return;
     }
 
-    ytdl.getInfo(audioUrl, ['-q', '--no-warnings'], (err, info) => {
+    ytdl.getInfo(audioUrl, (err, info) => {
       if (err || !info.video_id) {
         console.log(err);
         send(channel, 'Invalid audio URL');

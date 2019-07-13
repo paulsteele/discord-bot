@@ -1,5 +1,5 @@
-import { Attachment } from 'discord.js';
-import Command from '../command';
+import { Attachment, FileOptions, Message, User, Guild } from 'discord.js';
+import Command from '../Command';
 import send from '../utils/send';
 
 const triggerText = 'snapshot';
@@ -20,7 +20,7 @@ class SnapshotCommand extends Command {
     super(triggerText, shortHelpText, longHelpText, version, args);
   }
 
-  execute(payload, messageId) {
+  execute(payload: Message, messageId: string | undefined = undefined) {
     if (!messageId) {
       send(payload.channel, 'No message id provided');
     }
@@ -29,16 +29,18 @@ class SnapshotCommand extends Command {
       .then((messages) => {
         payload.channel.stopTyping();
         const script = messages.map(this.formatMessage, this).reverse().join('\n');
-        send(payload.channel, 'Here\'s your snapshot', { file: new Attachment(Buffer.from(script, 'utf8'), 'script.txt') });
+        const options: FileOptions = { attachment: Buffer.from(script, 'utf8'), name: 'script.txt' };
+
+        send(payload.channel, 'Here\'s your snapshot', {file: options});
       });
   }
 
 
-  formatMessage(message) {
+  formatMessage(message: Message) {
     return `${this.getDisplayName(message.author, message.guild)} ${delimiter} ${message.createdAt} ${delimiter} ${message.content}`;
   }
 
-  getDisplayName(author, guild) {
+  getDisplayName(author: User, guild: Guild) {
     return guild.member(author).displayName;
   }
 }

@@ -1,6 +1,6 @@
-import Command from '../command';
+import Command from '../Command';
 
-export default function (content) {
+export default function (content: string) {
   let command = null;
   let contentText = null;
   if (content) {

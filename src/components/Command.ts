@@ -1,4 +1,5 @@
-import MessageHandler from '../components/handlers/MessageHandler'
+import { Message } from 'discord.js';
+import MessageHandler from '../components/handlers/MessageHandler';
 
 class Command {
 
@@ -11,7 +12,7 @@ class Command {
   handlers: MessageHandler[];
   commands: Command[];
 
-  constructor(triggerText: string, shortHelpText:string , longHelpText: string, version:string, args = []) {
+  constructor(triggerText: string, shortHelpText:string , longHelpText: string, version:string, args: string[] = []) {
     this.triggerText = triggerText;
     this.args = args;
     this.shortHelpText = shortHelpText;
@@ -26,7 +27,7 @@ class Command {
     return this.triggerText;
   }
 
-  execute() {
+  execute(payload: Message) {
     // meant to be overwritten if needed
   }
 

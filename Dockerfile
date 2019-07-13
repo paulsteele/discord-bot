@@ -1,7 +1,9 @@
 #Base Image
-FROM node:11-alpine as base
+FROM node:12-alpine as base
 
 WORKDIR /teyler-bot
+
+RUN apk add --update yarn
 
 COPY ./package.json ./package.json
 
@@ -15,14 +17,14 @@ COPY ./.babelrc ./.babelrc
 COPY ./.eslintignore ./.eslintignore
 COPY ./.eslintrc.json ./.eslintrc
 
-RUN npm install
-RUN npm run build
-RUN npm run install-ffmpeg
+RUN yarn install
+RUN yarn run build
+RUN yarn run install-ffmpeg
 
 #Tester
 FROM builder as tester 
 
-RUN npm run test -- --coverage
+RUN yarn run test -- --coverage
 
 #Production
 FROM base as final

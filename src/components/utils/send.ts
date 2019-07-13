@@ -1,5 +1,6 @@
-/* eslint-disable no-console */
-export default function (channel, message, options) {
+import { TextChannel, GroupDMChannel, DMChannel, MessageOptions} from 'discord.js';
+
+export default function (channel: TextChannel | GroupDMChannel | DMChannel, message: string, options?: MessageOptions)  {
   if (channel && message) {
     channel.send(message, options)
       .catch((err) => {

@@ -1,4 +1,4 @@
-export default function (content, numArgs) {
+export default function (content: string, numArgs: number) {
   let contentText = content;
   const argArray = [];
   if (contentText !== null) {

@@ -1,4 +1,4 @@
-import Command from '../command';
+import Command from '../Command';
 import send from '../utils/send';
 import getHelpMessage from '../utils/getHelpMessage';
 import getMaxCommandLength from '../utils/getMaxCommandLength';
@@ -15,7 +15,6 @@ const args = [
 class HelpCommand extends Command {
   constructor() {
     super(triggerText, shortHelpText, longHelpText, version, args);
-    this.helpText = null;
   }
 
   execute(payload, command = null) {

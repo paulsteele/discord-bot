@@ -1,6 +1,6 @@
-import Command from '../command';
+import Command from '../Command';
 
-const getTriggerAndArgs = (command) => {
+const getTriggerAndArgs = (command: Command): string => {
   const trigger = command.getTrigger();
   let val = '';
   val += trigger;
@@ -16,7 +16,7 @@ const getTriggerAndArgs = (command) => {
   return val;
 };
 
-export default function (command, index, length, maxCommandLength) {
+export default function (command: Command, index: number, length: number, maxCommandLength: number): string {
   let messageContent = '';
 
   messageContent += Command.getPrefix() + getTriggerAndArgs(command).padEnd(maxCommandLength);

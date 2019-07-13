@@ -1,4 +1,5 @@
-import Command from '../command';
+import { Message } from 'discord.js';
+import Command from '../Command';
 import send from '../utils/send';
 
 const triggerText = 'backup';
@@ -11,7 +12,7 @@ class BackupCommand extends Command {
     super(triggerText, shortHelpText, longHelpText, version);
   }
 
-  execute(payload) {
+  execute(payload: Message) {
     if (payload.author) {
       if (!this.store.backups[payload.author.id]) {
         this.store.backups[payload.author.id] = true;

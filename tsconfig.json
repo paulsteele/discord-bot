@@ -1,11 +1,9 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
     "strict": true,
     "experimentalDecorators": true,
     "outDir": "dist",
-    "moduleResolution": "Node",
+    "moduleResolution": "node",
     "resolveJsonModule": true
   },
   "include": [

@@ -1,16 +1,20 @@
-/* eslint-disable no-console */
+import { Client, Collection, Guild } from 'discord.js';
 import send from '../utils/send';
 import { version } from '../../../package.json';
 
 class ReadyHandler {
-  constructor(guilds) {
-    this.guilds = guilds;
+  guilds: Collection<string, Guild>;
+
+  constructor(client: Client) {
+    this.guilds = client.guilds;
     this.handle = this.handle.bind(this);
+
+    client.once('ready', this.handle);
   }
 
   handle() {
     console.log('I am ready!');
-    this.guilds.array().forEach((guild) => {
+    this.guilds.forEach((guild) => {
       const topChannel = guild.channels.reduce((previous, channel) => {
         if ((!previous || (previous && previous.position > channel.position)) && channel.type === 'text') {
           return channel;
