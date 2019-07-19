@@ -1,15 +1,15 @@
 import { Client } from 'discord.js';
-import CommandList from './commands/CommandList';
 import Command from './Command';
-import ReadyHandler from './handlers/ReadyHandler';
+import CommandList from './commands/CommandList';
 import MessageHandler from './handlers/MessageHandler';
+import ReadyHandler from './handlers/ReadyHandler';
 
 class Bot {
   client: Client;
   commands: Record<string, Command>;
   readyHandler: ReadyHandler;
   messageHandler: MessageHandler;
-  store: any;
+  store: Record<string, Object>;
 
   constructor() {
     this.client = new Client();

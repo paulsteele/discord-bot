@@ -1,5 +1,6 @@
 import { Message } from 'discord.js';
-import Command from '../Command';
+import Bot from '../Bot';
+import Command, { Payload } from '../Command';
 import send from '../utils/send';
 
 const triggerText = 'backoff';
@@ -8,11 +9,15 @@ const longHelpText = 'Stops Teyler-bot from saying "same" after every message fr
 const version = '1.0.0';
 
 class BackoffCommand extends Command {
-  constructor() {
-    super(triggerText, shortHelpText, longHelpText, version);
+  constructor(bot: Bot) {
+    super(bot);
+    this.triggerText = triggerText;
+    this.shortHelpText = shortHelpText;
+    this.longHelpText = longHelpText;
+    this.version = version;
   }
 
-  execute(payload: Message) {
+  execute(payload: Payload) {
     if (payload.author) {
       if (this.store.backups[payload.author.id]) {
         this.store.backups[payload.author.id] = undefined;
@@ -24,4 +29,4 @@ class BackoffCommand extends Command {
   }
 }
 
-export default new BackoffCommand();
+export default BackoffCommand;
