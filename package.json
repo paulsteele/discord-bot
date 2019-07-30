@@ -45,7 +45,7 @@
     "ffbinaries": "^1.0.3",
     "libsodium": "^0.7.5",
     "opusscript": "0.0.6",
-    "ytdl-core": "^0.29.2"
+    "ytdl-core": "^0.29.4"
   },
   "jest": {
     "testEnvironment": "node",
