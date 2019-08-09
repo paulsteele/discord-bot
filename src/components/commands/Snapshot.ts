@@ -1,5 +1,6 @@
-import { Attachment, FileOptions, Message, User, Guild } from 'discord.js';
-import Command from '../Command';
+import {FileOptions, Guild, Message, User } from 'discord.js';
+import Bot from '../Bot';
+import Command, { Payload } from '../Command';
 import send from '../utils/send';
 
 const triggerText = 'snapshot';
@@ -16,11 +17,16 @@ const messageLimit = 100;
 const delimiter = '###';
 
 class SnapshotCommand extends Command {
-  constructor() {
-    super(triggerText, shortHelpText, longHelpText, version, args);
+  constructor(bot: Bot) {
+    super(bot);
+    this.triggerText = triggerText;
+    this.shortHelpText = shortHelpText;
+    this.longHelpText = longHelpText;
+    this.version = version;
+    this.args = args;
   }
 
-  execute(payload: Message, messageId: string | undefined = undefined) {
+  execute(payload: Payload, messageId: string | undefined = undefined) {
     if (!messageId) {
       send(payload.channel, 'No message id provided');
     }
@@ -45,4 +51,4 @@ class SnapshotCommand extends Command {
   }
 }
 
-export default new SnapshotCommand();
+export default SnapshotCommand;

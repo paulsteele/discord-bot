@@ -1,5 +1,4 @@
-import { User, TextChannel, GroupDMChannel, DMChannel } from 'discord.js';
-import MessageHandler from '../components/handlers/MessageHandler';
+import {  DMChannel, GroupDMChannel, TextChannel, User } from 'discord.js';
 import Bot from '../components/Bot';
 
 export interface Payload {
@@ -48,14 +47,6 @@ class Command {
 
   getVersion() {
     return this.version;
-  }
-
-  setup(bot: Bot) {
-    this.finalizeSetup();
-  }
-
-  finalizeSetup() {
-    // meant to be overwritten if needed
   }
 
   static getPrefix() {

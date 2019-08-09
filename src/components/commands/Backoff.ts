@@ -1,4 +1,3 @@
-import { Message } from 'discord.js';
 import Bot from '../Bot';
 import Command, { Payload } from '../Command';
 import send from '../utils/send';
@@ -19,8 +18,8 @@ class BackoffCommand extends Command {
 
   execute(payload: Payload) {
     if (payload.author) {
-      if (this.store.backups[payload.author.id]) {
-        this.store.backups[payload.author.id] = undefined;
+      if (this.bot.getStore().backups[payload.author.id]) {
+        this.bot.getStore().backups[payload.author.id] = undefined;
         send(payload.channel, `<@${payload.author.id}>, backing off`);
       } else {
         send(payload.channel, `<@${payload.author.id}>, I wasn't backing you up...`);

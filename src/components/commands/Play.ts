@@ -1,6 +1,7 @@
-import { Message, GuildMember } from 'discord.js';
+import { Guild, GuildMember, Message,  TextChannel } from 'discord.js';
 import * as ytdl from 'ytdl-core';
-import Command from '../Command';
+import Bot from '../Bot';
+import Command, { Payload } from '../Command';
 import send from '../utils/send';
 
 const triggerText = 'play';
@@ -13,55 +14,64 @@ const args = [
 ];
 
 class PlayCommand extends Command {
-  constructor() {
-    super(triggerText, shortHelpText, longHelpText, version, args);
+  constructor(bot: Bot) {
+    super(bot);
+    this.triggerText = triggerText;
+    this.shortHelpText = shortHelpText;
+    this.longHelpText = longHelpText;
+    this.version = version;
+    this.args = args;
+    this.bot.getStore().playQueue = [];
   }
 
-  execute(payload: Message, audioUrl = "") {
-    const { channel, member } = payload;
+  execute(payload: Payload, audioUrl = "") {
+    const { channel, author } = payload;
     if (!audioUrl) {
       send(channel, 'an {audio_url} must be specifed');
       return;
     }
-    const { voiceChannel } = member;
 
-    if (!voiceChannel) {
-      send(channel, `<@${payload.author.id}> you must be in a voice channel to play audio`);
-      return;
-    }
+    if (channel instanceof TextChannel) {
+      const guildAuthor = channel.guild.member(author);
+      const { voiceChannel } = guildAuthor;
 
-    if (this.store.playQueue.length > 0) {
-      send(channel, `<@${payload.author.id}> something is already playing, you can stop it with \`!stop\``);
-      return;
-    }
-
-    ytdl.getInfo(audioUrl, (err, info) => {
-      if (err || !info.video_id) {
-        console.log(err);
-        send(channel, 'Invalid audio URL');
+      if (!voiceChannel) {
+        send(channel, `<@${payload.author.id}> you must be in a voice channel to play audio`);
         return;
       }
-      voiceChannel.join()
-        .then(() => {
-          const stream = ytdl(info.video_url, { filter: 'audioonly' });
-          const streamOptions = { seek: 0, volume: 0.1 };
-          return voiceChannel.connection.playStream(stream, streamOptions);
-        })
-        .then((dispatcher) => {
-          const stopPlaying = () => {
-            this.store.playQueue.pop();
-            voiceChannel.leave();
-          };
-          dispatcher.on('end', stopPlaying);
-          dispatcher.on('error', (playErr) => { console.error(playErr); stopPlaying(); });
-          this.store.playQueue.push(dispatcher);
-        });
-    });
-  }
 
-  finalizeSetup() {
-    this.store.playQueue = [];
+      if (this.bot.getStore().playQueue.length > 0) {
+        send(channel, `<@${payload.author.id}> something is already playing, you can stop it with \`!stop\``);
+        return;
+      }
+
+      ytdl.getInfo(audioUrl, (err, info) => {
+        if (err || !info.video_id) {
+          console.log(err);
+          send(channel, 'Invalid audio URL');
+          return;
+        }
+        voiceChannel.join()
+          .then(() => {
+            const stream = ytdl(info.video_url, { filter: 'audioonly' });
+            const streamOptions = { seek: 0, volume: 0.1 };
+            return voiceChannel.connection.playStream(stream, streamOptions);
+          })
+          .then((dispatcher) => {
+            const stopPlaying = () => {
+              this.bot.getStore().playQueue.pop();
+              voiceChannel.leave();
+            };
+            dispatcher.on('end', stopPlaying);
+            dispatcher.on('error', (playErr) => { console.error(playErr); stopPlaying(); });
+            this.bot.getStore().playQueue.push(dispatcher);
+          });
+      });
+    } else {
+      send(channel, 'must be in a server to run `play`');
+    }
+
   }
 }
 
-export default new PlayCommand();
+export default PlayCommand;

@@ -43,11 +43,14 @@ class HelpCommand extends Command {
       messageContent += '```';
       send(payload.channel, messageContent);
     } else {
+      if (!this.helpList) {
+        this.createHelpList();
+      }
       send(payload.channel, this.helpList);
     }
   }
 
-  finalizeSetup() {
+  createHelpList() {
     const commandArray = Object.values(this.bot.getCommands());
     commandArray.sort(Command.compare);
     const maxCommandLength = getMaxCommandLength(commandArray);

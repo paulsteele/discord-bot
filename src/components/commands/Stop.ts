@@ -1,5 +1,5 @@
-import { Message } from 'discord.js';
-import Command from '../Command';
+import Bot from '../Bot';
+import Command, { Payload } from '../Command';
 import send from '../utils/send';
 
 const triggerText = 'stop';
@@ -9,13 +9,18 @@ const version = '1.1.11';
 const args: string[] = [];
 
 class StopCommand extends Command {
-  constructor() {
-    super(triggerText, shortHelpText, longHelpText, version, args);
+  constructor(bot: Bot) {
+    super(bot);
+    this.triggerText = triggerText;
+    this.shortHelpText = shortHelpText;
+    this.longHelpText = longHelpText;
+    this.version = version;
+    this.args = args;
   }
 
-  execute(payload: Message) {
-    if (this.store.playQueue && this.store.playQueue.length > 0) {
-      const stream = this.store.playQueue.pop();
+  execute(payload: Payload) {
+    if (this.bot.getStore().playQueue && this.bot.getStore().playQueue.length > 0) {
+      const stream = this.bot.getStore().playQueue.pop();
       stream.end();
     } else {
       send(payload.channel, `<@${payload.author.id}>, there is nothing playing right now.`);
@@ -23,4 +28,4 @@ class StopCommand extends Command {
   }
 }
 
-export default new StopCommand();
+export default StopCommand;

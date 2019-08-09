@@ -1,9 +1,9 @@
-import { Message } from 'discord.js';
-import Command from '../Command';
-import send from '../utils/send';
-import Version from '../utils/Version';
+import Bot from '../Bot';
+import Command, { Payload } from '../Command';
 import getHelpMessage from '../utils/getHelpMessage';
 import getMaxCommandLength from '../utils/getMaxCommandLength';
+import send from '../utils/send';
+import Version from '../utils/Version';
 
 import { version as packageVersion } from '../../../package.json';
 
@@ -18,17 +18,22 @@ const args = [
 ];
 
 class NewCommand extends Command {
-  constructor() {
-    super(triggerText, shortHelpText, longHelpText, version, args);
+  constructor(bot: Bot) {
+    super(bot);
+    this.triggerText = triggerText;
+    this.shortHelpText = shortHelpText;
+    this.longHelpText = longHelpText;
+    this.version = version;
+    this.args = args;
   }
 
-  execute(payload: Message, requestVersion = packageVersion) {
-    const message = NewCommand.getNewCommands(requestVersion, this.commands);
+  execute(payload: Payload, requestVersion = packageVersion) {
+    const message = NewCommand.getNewCommands(requestVersion, this.bot.commands);
 
     send(payload.channel, message);
   }
 
-  static getNewCommands(requestVersion: string, commands: Command[]) {
+  static getNewCommands(requestVersion: string, commands: Record<string, Command>) {
     const parsedVersion = new Version(requestVersion);
     if (parsedVersion) {
       const commandArray = Object.values(commands);
@@ -78,4 +83,4 @@ class NewCommand extends Command {
   }
 }
 
-export default new NewCommand();
+export default NewCommand;

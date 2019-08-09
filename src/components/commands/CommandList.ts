@@ -1,14 +1,14 @@
-import Backup from './Backup';
-import Backoff from './Backoff';
 import Command from '../Command';
-import Help from './Help';
-import Repeat from './Repeat';
-import Timed from './Timed';
+import Backoff from './Backoff';
+import Backup from './Backup';
 import Coinflip from './Coinflip';
+import Help from './Help';
 import New from './New';
 import Play from './Play';
-import Stop from './Stop';
+import Repeat from './Repeat';
 import Snapshot from './Snapshot';
+import Stop from './Stop';
+import Timed from './Timed';
 
 import Bot from '../Bot';
 

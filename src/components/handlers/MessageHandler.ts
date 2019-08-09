@@ -1,17 +1,18 @@
-import { Client, Message } from 'discord.js';
+import { Message } from 'discord.js';
 import Command from '../Command';
-import seperateCommandFromMessage from '../utils/seperateCommandFromMessage';
 import seperateArgsFromContent from '../utils/seperateArgsFromContent';
+import seperateCommandFromMessage from '../utils/seperateCommandFromMessage';
+import Handler from './Handler';
 
-class MessageHandler {
+class MessageHandler implements Handler {
   commands: Record<string, Command>;
   listeners: any[];
-  constructor(client: Client, commands: Record<string, Command>) {
+  constructor(commands: Record<string, Command>) {
     this.commands = commands;
     this.handle = this.handle.bind(this);
     this.listeners = [];
 
-    client.on('message', this.handle);
+//    client.on('message', this.handle);
   }
 
   handle(message: Message) {
@@ -33,17 +34,7 @@ class MessageHandler {
 
         command.execute(payload, ...splitArg.argArray);
       }
-    } else { // handle other listeners
-      this.listeners.forEach((listener) => {
-        if (listener.handle) {
-          listener.handle(message);
-        }
-      });
     }
-  }
-
-  registerListener(listener) {
-    this.listeners[this.listeners.length] = listener;
   }
 }
 
