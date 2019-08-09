@@ -25,7 +25,9 @@ volumes: [
 
     stage('Build') {
       container('docker') {
-        sh "docker build . -t registry.paul-steele.com/teyler-bot:$tag"
+        retry( 10 ) {
+          sh "docker build . -t registry.paul-steele.com/teyler-bot:$tag"
+        }
       }
     }
 
