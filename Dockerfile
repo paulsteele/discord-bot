@@ -36,4 +36,4 @@ COPY --from=builder ./teyler-bot/node_modules ./node_modules
 
 ENV PATH="$PATH:./node_modules/.bin/"
 
-CMD ["node", "dist/index.js"]
+CMD ["node", "dist/src/index.js"]
