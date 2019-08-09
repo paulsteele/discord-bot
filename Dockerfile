@@ -6,6 +6,7 @@ WORKDIR /teyler-bot
 RUN apk add --update yarn
 
 COPY ./package.json ./package.json
+COPY ./yarn.lock ./yarn.lock
 
 #Builder
 FROM base as builder
@@ -13,9 +14,8 @@ FROM base as builder
 RUN apk update && apk upgrade && apk add --no-cache git python make g++
 
 COPY ./src ./src
-COPY ./.babelrc ./.babelrc
-COPY ./.eslintignore ./.eslintignore
-COPY ./.eslintrc.json ./.eslintrc
+COPY ./tsconfig.json tsconfig.json
+COPY ./tslint.json tslint.json
 
 RUN yarn install
 RUN yarn run build
@@ -24,7 +24,7 @@ RUN yarn run install-ffmpeg
 #Tester
 FROM builder as tester 
 
-RUN yarn run test -- --coverage
+RUN yarn run test
 
 #Production
 FROM base as final
