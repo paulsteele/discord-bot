@@ -1,4 +1,3 @@
-import { Message } from 'discord.js';
 import Bot from '../Bot';
 import Command, {Payload} from '../Command';
 import send from '../utils/send';
@@ -19,7 +18,7 @@ class RepeatCommand extends Command {
   defaultText: string;
 
   constructor(bot: Bot) {
-    super(bot)
+    super(bot);
     this.triggerText = triggerText;
     this.shortHelpText = shortHelpText;
     this.longHelpText = longHelpText;

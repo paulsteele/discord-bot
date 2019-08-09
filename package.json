@@ -7,7 +7,7 @@
     "start": "dotenv -e tokens.env ts-node-dev src/index.ts",
     "build": "tsc",
     "serve": "node dist/index.js",
-    "lint": "tslint -c ./tslint.json './**/*.ts'",
+    "lint": "tslint -c ./tslint.json 'src/**/*.ts'",
     "test": "jest .",
     "install-ffmpeg": "ffbinaries ffmpeg -o ./node_modules/.bin",
     "test:watch": "jest --watch .",
@@ -31,6 +31,7 @@
     "nodemon": "^1.11.0",
     "prettier": "^1.18.2",
     "regenerator-runtime": "^0.13.2",
+    "ts-jest": "^24.0.2",
     "ts-node-dev": "^1.0.0-pre.40",
     "tslint": "^5.18.0",
     "tslint-config-airbnb": "^5.11.1",
@@ -53,12 +54,13 @@
       "**/*.js",
       "!**/node_modules/**",
       "!**/dist/**",
-      "!**/*test.js",
+      "!**/*test.ts",
       "!**/coverage/**"
     ],
     "testMatch": [
-      "**/__tests__/**/*.test.js"
+      "**/__tests__/**/*.test.ts"
     ],
+    "preset": "ts-jest",
     "testPathIgnorePatterns": [
       "/node_modules/",
       "/dist/",

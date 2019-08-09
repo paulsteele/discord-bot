@@ -19,7 +19,7 @@ describe('seperateCommandFromMessage', () => {
     const phrase = noContentCommand;
     const command = seperateCommandFromMessage(phrase);
     expect(command.command).toEqual('help');
-    expect(command.contentText).toEqual(null);
+    expect(command.contentText).toEqual("");
   });
 
   it('should return correct values for a one letter command and one letter content', () => {
@@ -47,7 +47,7 @@ describe('seperateCommandFromMessage', () => {
     const phrase = `${noContentCommand}       `;
     const command = seperateCommandFromMessage(phrase);
     expect(command.command).toEqual('help');
-    expect(command.contentText).toEqual(null);
+    expect(command.contentText).toEqual("");
   });
 
   it('should return correct values for a message with spaces inbetween', () => {
@@ -60,14 +60,14 @@ describe('seperateCommandFromMessage', () => {
   it('should return safe values on empty value', () => {
     const phrase = '';
     const command = seperateCommandFromMessage(phrase);
-    expect(command.command).toEqual(null);
-    expect(command.contentText).toEqual(null);
+    expect(command.command).toEqual("");
+    expect(command.contentText).toEqual("");
   });
 
   it('should return safe values on just the command Prefix', () => {
     const phrase = prefix;
     const command = seperateCommandFromMessage(phrase);
     expect(command.command).toEqual('');
-    expect(command.contentText).toEqual(null);
+    expect(command.contentText).toEqual("");
   });
 });

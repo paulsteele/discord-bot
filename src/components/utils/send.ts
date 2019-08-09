@@ -1,4 +1,4 @@
-import { TextChannel, GroupDMChannel, DMChannel, MessageOptions} from 'discord.js';
+import {  DMChannel, GroupDMChannel, MessageOptions, TextChannel} from 'discord.js';
 
 export default function (channel: TextChannel | GroupDMChannel | DMChannel, message: string, options?: MessageOptions)  {
   if (channel && message) {

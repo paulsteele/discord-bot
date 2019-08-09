@@ -8,5 +8,11 @@
     "semicolon": { "severity": "error" },
     "ordered-imports": true
   },
-  "rulesDirectory": []
+  "rulesDirectory": [],
+  "linterOptions": {
+    "exclude": [
+      "node_modules",
+      "dist"
+    ]
+  }
 }

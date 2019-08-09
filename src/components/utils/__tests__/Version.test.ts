@@ -28,21 +28,33 @@ describe('getVersionNumbersFromString', () => {
   });
 
   it('should return null on an invalid string', () => {
-    const version = null;
+    const version = {
+      release: -1,
+      major: -1,
+      minor: -1,
+    };
     const testString = 'Something Else';
 
     expect(new Version(testString)).toEqual(version);
   });
 
   it('should return null on an invalid string of size 2', () => {
-    const version = null;
+    const version = {
+      release: -1,
+      major: -1,
+      minor: -1,
+    };
     const testString = '1.2.';
 
     expect(new Version(testString)).toEqual(version);
   });
 
   it('should return null on an invalid string of size 4', () => {
-    const version = null;
+    const version = {
+      release: -1,
+      major: -1,
+      minor: -1,
+    };
     const testString = '1.2.3.4';
 
     expect(new Version(testString)).toEqual(version);
