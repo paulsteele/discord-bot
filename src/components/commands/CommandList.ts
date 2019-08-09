@@ -3,6 +3,7 @@ import Backoff from './Backoff';
 import Backup from './Backup';
 import Coinflip from './Coinflip';
 import Help from './Help';
+import Joke from './Joke';
 import New from './New';
 import Play from './Play';
 import Repeat from './Repeat';
@@ -15,6 +16,7 @@ import Bot from '../Bot';
 function getCommands(bot: Bot): Command[] {
   return [
     new Help(bot),
+    new Joke(bot),
     new Repeat(bot),
     new Timed(bot),
     new Backup(bot),
