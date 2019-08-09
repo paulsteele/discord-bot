@@ -17,7 +17,7 @@ COPY ./src ./src
 COPY ./tsconfig.json tsconfig.json
 COPY ./tslint.json tslint.json
 
-RUN yarn install
+RUN yarn install --network-timeout 1000000
 RUN yarn run build
 RUN yarn run install-ffmpeg
 
