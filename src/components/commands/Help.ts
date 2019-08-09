@@ -26,9 +26,13 @@ class HelpCommand extends Command {
     this.helpList = "";
   }
 
-  execute(payload: Payload, command: Command) {
-    if (command) {
-      const actualCommand = this.bot.getCommand(command.getTrigger());
+  execute(payload: Payload, commandTrigger: string) {
+    if (commandTrigger) {
+      const actualCommand = this.bot.getCommand(commandTrigger);
+      if (!actualCommand) {
+        send(payload.channel, `\`${commandTrigger}\` not found`);
+        return;
+      }
       let messageContent = '```';
       messageContent += `Command - ${actualCommand.getTrigger()}\n`;
       const commandArgs = actualCommand.getArgs();

@@ -15,9 +15,9 @@ class MessageHandler implements Handler {
 //    client.on('message', this.handle);
   }
 
-  handle(message: Message) {
+  handle(message: Message): boolean {
     if (message.author.bot) {
-      return;
+      return false;
     }
 
     if (message.content.trim().startsWith(Command.getPrefix())) {
@@ -33,8 +33,11 @@ class MessageHandler implements Handler {
         };
 
         command.execute(payload, ...splitArg.argArray);
+        return true;
       }
+      return false;
     }
+    return false;
   }
 }
 

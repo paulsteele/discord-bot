@@ -18,8 +18,9 @@ class BackoffCommand extends Command {
 
   execute(payload: Payload) {
     if (payload.author) {
-      if (this.bot.getStore().backups[payload.author.id]) {
-        this.bot.getStore().backups[payload.author.id] = undefined;
+      const watchList = this.bot.getStore()['backups'] as Record<string, boolean>;
+      if (watchList[payload.author.id]) {
+        delete watchList[payload.author.id];
         send(payload.channel, `<@${payload.author.id}>, backing off`);
       } else {
         send(payload.channel, `<@${payload.author.id}>, I wasn't backing you up...`);

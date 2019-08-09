@@ -16,13 +16,14 @@ class BackupCommand extends Command implements Handler {
     this.shortHelpText = shortHelpText;
     this.longHelpText = longHelpText;
     this.version = version;
-    bot.getStore().backups = {};
+    bot.getStore()['backups'] = {};
   }
 
   execute(payload: Payload) {
     if (payload.author) {
-      if (!this.bot.getStore().backups[payload.author.id]) {
-        this.bot.getStore().backups[payload.author.id] = true;
+      const watchList = this.bot.getStore()['backups'] as Record<string, boolean>;
+      if (!watchList[payload.author.id]) {
+        watchList[payload.author.id] = true;
         send(payload.channel, `<@${payload.author.id}>, backing you up`);
       } else {
         send(payload.channel, `<@${payload.author.id}>, I am already backing you up`);
@@ -30,10 +31,13 @@ class BackupCommand extends Command implements Handler {
     }
   }
 
-  handle(message: Message) {
-    if (this.bot.getStore().backups[message.author.id]) {
+  handle(message: Message): boolean {
+    const watchList = this.bot.getStore()['backups'] as Record<string, boolean>;
+    if (watchList[message.author.id]) {
       send(message.channel, `${message.author} same`);
+      return true;
     }
+    return false;
   }
 }
 

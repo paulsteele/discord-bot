@@ -11,7 +11,7 @@ describe('seperateArgsFromContent', () => {
     'here',
   ];
 
-  const combineWords = (numWords, numSpaces) => {
+  const combineWords = (numWords: number, numSpaces: number) => {
     let ret = '';
     for (let i = 0; i < numWords && i < wordBank.length; i += 1) {
       ret += wordBank[i];
@@ -48,12 +48,6 @@ describe('seperateArgsFromContent', () => {
     const res = seperateArgsFromContent(phrase, 3);
     expect(res.argArray).toEqual([wordBank[0], wordBank[1], wordBank[2]]);
     expect(res.contentText).toEqual('');
-  });
-
-  it('should return safe values when there is an error', () => {
-    const res = seperateArgsFromContent(null, 3);
-    expect(res.argArray).toEqual([]);
-    expect(res.contentText).toEqual(null);
   });
 
   it('should return safe values when there is an empty string', () => {

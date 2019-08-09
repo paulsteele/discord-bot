@@ -1,5 +1,5 @@
+import Command from '../../Command';
 import seperateCommandFromMessage from '../seperateCommandFromMessage';
-import Command from '../../command';
 
 describe('seperateCommandFromMessage', () => {
   const prefix = Command.getPrefix();
@@ -57,14 +57,7 @@ describe('seperateCommandFromMessage', () => {
     expect(command.contentText).toEqual('wow');
   });
 
-  it('should return safe values on error', () => {
-    const phrase = null;
-    const command = seperateCommandFromMessage(phrase);
-    expect(command.command).toEqual(null);
-    expect(command.contentText).toEqual(null);
-  });
-
-  it('should return safe values on emptyvalue', () => {
+  it('should return safe values on empty value', () => {
     const phrase = '';
     const command = seperateCommandFromMessage(phrase);
     expect(command.command).toEqual(null);

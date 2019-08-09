@@ -1,4 +1,4 @@
-import { Guild, GuildMember, Message,  TextChannel } from 'discord.js';
+import { StreamDispatcher, TextChannel } from 'discord.js';
 import * as ytdl from 'ytdl-core';
 import Bot from '../Bot';
 import Command, { Payload } from '../Command';
@@ -21,7 +21,7 @@ class PlayCommand extends Command {
     this.longHelpText = longHelpText;
     this.version = version;
     this.args = args;
-    this.bot.getStore().playQueue = [];
+    this.bot.getStore()['playQueue'] = [];
   }
 
   execute(payload: Payload, audioUrl = "") {
@@ -40,7 +40,9 @@ class PlayCommand extends Command {
         return;
       }
 
-      if (this.bot.getStore().playQueue.length > 0) {
+      const playQueue = this.bot.getStore()['playQueue'] as StreamDispatcher[];
+
+      if (playQueue.length > 0) {
         send(channel, `<@${payload.author.id}> something is already playing, you can stop it with \`!stop\``);
         return;
       }
@@ -59,12 +61,12 @@ class PlayCommand extends Command {
           })
           .then((dispatcher) => {
             const stopPlaying = () => {
-              this.bot.getStore().playQueue.pop();
+              playQueue.pop();
               voiceChannel.leave();
             };
             dispatcher.on('end', stopPlaying);
             dispatcher.on('error', (playErr) => { console.error(playErr); stopPlaying(); });
-            this.bot.getStore().playQueue.push(dispatcher);
+            playQueue.push(dispatcher);
           });
       });
     } else {

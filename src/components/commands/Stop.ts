@@ -1,3 +1,4 @@
+import { StreamDispatcher } from 'discord.js';
 import Bot from '../Bot';
 import Command, { Payload } from '../Command';
 import send from '../utils/send';
@@ -19,9 +20,12 @@ class StopCommand extends Command {
   }
 
   execute(payload: Payload) {
-    if (this.bot.getStore().playQueue && this.bot.getStore().playQueue.length > 0) {
-      const stream = this.bot.getStore().playQueue.pop();
-      stream.end();
+    const playQueue = this.bot.getStore()['playQueue'] as StreamDispatcher[];
+    if (playQueue.length > 0) {
+      const stream = playQueue.pop();
+      if (stream) {
+        stream.end();
+      }
     } else {
       send(payload.channel, `<@${payload.author.id}>, there is nothing playing right now.`);
     }

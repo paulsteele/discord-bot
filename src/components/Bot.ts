@@ -15,16 +15,15 @@ class Bot {
 
   constructor() {
     this.client = new Client();
-    this.commands = this.registerCommands();
     this.store = {};
     this.handlers = [];
+    this.commands = this.registerCommands();
 
     this.readyHandler = new ReadyHandler(this.client);
     this.messageHandler = new MessageHandler(this.commands);
-    this.handlers.push(this.messageHandler);
 
     this.connect();
-    this.client.on('message', this.handleMessage);
+    this.client.on('message', this.handleMessage.bind(this));
   }
 
   connect() {
@@ -47,9 +46,12 @@ class Bot {
   }
 
   handleMessage(message: Message) {
-    this.handlers.forEach((handler: Handler) => {
-      handler.handle(message);
-    });
+    const handled = this.messageHandler.handle(message);
+    if (!handled) {
+      this.handlers.forEach((handler: Handler) => {
+        handler.handle(message);
+      });
+    }
   }
 
   getCommands(): Record<string, Command> {
@@ -60,7 +62,7 @@ class Bot {
     return this.commands[commandPrefix];
   }
 
-  getStore(): any {
+  getStore(): Record<string, Object> {
     return this.store;
   }
 }
