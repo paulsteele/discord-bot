@@ -6,6 +6,7 @@ WORKDIR /teyler-bot
 RUN apk add --update yarn
 
 COPY ./package.json ./package.json
+COPY ./yarn.lock ./yarn.lock
 
 #Builder
 FROM base as builder
