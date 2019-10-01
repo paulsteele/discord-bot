@@ -1,5 +1,5 @@
 import {  DMChannel, GroupDMChannel, TextChannel, User } from 'discord.js';
-import Bot from '../components/Bot';
+import Bot from './Bot';
 
 export interface Payload {
   author: User;

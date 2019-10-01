@@ -1,5 +1,5 @@
 import { Client, Collection, Guild } from 'discord.js';
-import { version } from '../../../package.json';
+import { version } from '../../package.json';
 import send from '../utils/send';
 
 class ReadyHandler {

@@ -1,4 +1,4 @@
-import Bot from './components/Bot';
+import Bot from './Bot';
 
 const bot = new Bot();
 

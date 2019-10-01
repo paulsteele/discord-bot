@@ -1,8 +1,8 @@
 import { Message } from 'discord.js';
 import Command from '../Command';
+import Handler from '../Handler';
 import seperateArgsFromContent from '../utils/seperateArgsFromContent';
 import seperateCommandFromMessage from '../utils/seperateCommandFromMessage';
-import Handler from './Handler';
 
 class MessageHandler implements Handler {
   commands: Record<string, Command>;
@@ -11,8 +11,6 @@ class MessageHandler implements Handler {
     this.commands = commands;
     this.handle = this.handle.bind(this);
     this.listeners = [];
-
-//    client.on('message', this.handle);
   }
 
   handle(message: Message): boolean {

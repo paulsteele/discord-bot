@@ -1,7 +1,7 @@
 import { Client, Message } from 'discord.js';
 import Command from './Command';
-import CommandList from './commands/CommandList';
-import Handler, { isHandler } from './handlers/Handler';
+import { default as Commands } from './commands';
+import Handler, { isHandler } from './Handler';
 import MessageHandler from './handlers/MessageHandler';
 import ReadyHandler from './handlers/ReadyHandler';
 
@@ -34,7 +34,7 @@ class Bot {
   registerCommands(): Record<string, Command> {
     const commands: Record<string, Command> = {};
 
-    CommandList(this).forEach((command: Command) => {
+    Commands(this).forEach((command: Command) => {
         commands[command.getTrigger()] = command;
         if (isHandler(command)) {
           this.handlers.push(command);

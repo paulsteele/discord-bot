@@ -1,7 +1,7 @@
 import { Message } from 'discord.js';
 import Bot from '../Bot';
 import Command, { Payload } from '../Command';
-import Handler from '../handlers/Handler';
+import Handler from '../Handler';
 import send from '../utils/send';
 
 const triggerText = 'backup';

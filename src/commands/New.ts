@@ -5,7 +5,7 @@ import getMaxCommandLength from '../utils/getMaxCommandLength';
 import send from '../utils/send';
 import Version from '../utils/Version';
 
-import { version as packageVersion } from '../../../package.json';
+import { version as packageVersion } from '../../package.json';
 
 const triggerText = 'new';
 const shortHelpText = 'shows what is new since {version}';
