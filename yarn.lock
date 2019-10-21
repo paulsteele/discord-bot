@@ -2739,10 +2739,10 @@ levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
-libsodium@^0.7.5:
-  version "0.7.5"
-  resolved "https://registry.yarnpkg.com/libsodium/-/libsodium-0.7.5.tgz#a45a0a88a6f7a39291b053447908a76570138e09"
-  integrity sha512-0YVU2QJc5sDR5HHkGCaliYImS7pGeXi11fiOfm4DirBd96PJVZIn3LJa06ZOFjLNsWkL3UbNjYhLRUOABPL9vw==
+libsodium@^0.7.6:
+  version "0.7.6"
+  resolved "https://registry.yarnpkg.com/libsodium/-/libsodium-0.7.6.tgz#018b80c5728054817845fbffa554274441bda277"
+  integrity sha512-hPb/04sEuLcTRdWDtd+xH3RXBihpmbPCsKW/Jtf4PsvdyKh+D6z2D2gvp/5BfoxseP+0FCOg66kE+0oGUE/loQ==
 
 load-json-file@^1.0.0:
   version "1.1.0"
