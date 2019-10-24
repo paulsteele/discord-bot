@@ -1,0 +1,4 @@
+{
+  "discordToken": "key goes here",
+  "statePath": "./state"
+}

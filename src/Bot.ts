@@ -4,6 +4,7 @@ import Api from './Api';
 import { default as Apis } from './apis';
 import Command from './Command';
 import { default as Commands } from './commands';
+import Config from './Config';
 import Handler, { isHandler } from './Handler';
 import MessageHandler from './handlers/MessageHandler';
 import ReadyHandler from './handlers/ReadyHandler';
@@ -11,6 +12,7 @@ import ReadyHandler from './handlers/ReadyHandler';
 class Bot {
   client: Client;
   commands: Record<string, Command>;
+  config: Config;
   readyHandler: ReadyHandler;
   messageHandler: MessageHandler;
   handlers: Handler[];
@@ -19,13 +21,14 @@ class Bot {
 
   constructor() {
     this.client = new Client();
+    this.config = new Config();
     this.store = {};
     this.handlers = [];
     this.apiServer = express();
     this.commands = this.registerCommands();
     this.registerApis();
 
-    this.readyHandler = new ReadyHandler(this.client);
+    this.readyHandler = new ReadyHandler(this.client, this.config);
     this.messageHandler = new MessageHandler(this.commands);
 
     this.connect();
@@ -35,8 +38,7 @@ class Bot {
   }
 
   connect() {
-    const { DISCORD_TOKEN } = process.env;
-    this.client.login(DISCORD_TOKEN);
+    this.client.login(this.config.discordToken);
   }
 
   registerCommands(): Record<string, Command> {

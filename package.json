@@ -1,10 +1,10 @@
 {
   "name": "teyler_bot",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "A discord bot inspired by teyler!",
   "main": "index.js",
   "scripts": {
-    "start": "dotenv -e tokens.env ts-node-dev src/index.ts",
+    "start": "ts-node-dev src/index.ts",
     "build": "tsc",
     "serve": "node dist/index.js",
     "lint": "tslint -c ./tslint.json 'src/**/*.ts'",

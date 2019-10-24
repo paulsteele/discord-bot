@@ -3,6 +3,6 @@ node_modules/
 package-lock.json
 teyler-bot.tar
 coverage/
-tokens.env
+config.json
 .vscode/
 deployment/k8s.yaml

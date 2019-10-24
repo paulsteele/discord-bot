@@ -1,13 +1,16 @@
 import { Client, Collection, Guild } from 'discord.js';
 import { version } from '../../package.json';
+import Config from '../Config';
 import send from '../utils/send';
 
 class ReadyHandler {
   guilds: Collection<string, Guild>;
+  config: Config;
 
-  constructor(client: Client) {
+  constructor(client: Client, config: Config) {
     this.guilds = client.guilds;
     this.handle = this.handle.bind(this);
+    this.config = config;
 
     client.once('ready', this.handle);
   }
