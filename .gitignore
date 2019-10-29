@@ -1,4 +1,5 @@
 dist/
+state/
 node_modules/
 package-lock.json
 teyler-bot.tar
