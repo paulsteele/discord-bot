@@ -18,11 +18,19 @@ spec:
       containers:
         - name: teyler-bot
           image: registry.paul-steele.com/teyler-bot:$BUILD_TAG
-          env:
-            - name: DISCORD_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: teyler-bot-token
-                  key: discordToken
+          volumeMounts:
+            - name: config
+              mountPath: "/config"
+              readOnly: true
+            - name: state
+              mountPath: "/state"
       imagePullSecrets:
         - name: registry.paul-steele.com
+      volumes:
+        - name: config
+          secret:
+            secretName: discord-bot-config
+        - name: state
+          nfs:
+            path: /srv/nfs/discord-bot
+            server: 192.168.0.105

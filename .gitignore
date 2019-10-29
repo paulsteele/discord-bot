@@ -4,6 +4,7 @@ node_modules/
 package-lock.json
 teyler-bot.tar
 coverage/
-config.json
+config/
+!config.example.json
 .vscode/
 deployment/k8s.yaml
