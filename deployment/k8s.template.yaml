@@ -20,10 +20,10 @@ spec:
           image: registry.paul-steele.com/teyler-bot:$BUILD_TAG
           volumeMounts:
             - name: config
-              mountPath: "/config"
+              mountPath: "teyler-bot/config"
               readOnly: true
             - name: state
-              mountPath: "/state"
+              mountPath: "teyler-bot/state"
       imagePullSecrets:
         - name: registry.paul-steele.com
       volumes:
