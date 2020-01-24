@@ -25,7 +25,7 @@
   "homepage": "https://github.com/paulsteele/discord-bot#readme",
   "devDependencies": {
     "@types/express": "^4.17.2",
-    "@types/jest": "^24.0.25",
+    "@types/jest": "^24.9.1",
     "@types/node": "^13.1.4",
     "dotenv-cli": "^3.1.0",
     "jest": "^24.9.0",
