@@ -1,6 +1,6 @@
 {
   "name": "teyler_bot",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "A discord bot inspired by teyler!",
   "main": "index.js",
   "scripts": {
